@@ -16,7 +16,7 @@
     {
       "name": "CWES",
       "desc": "HTB Web Exploitation Specialist. Job role path fully completed. I chose not to sit the exam.",
-      "pct": 100,
+      "pct": 90,
       "label": "Path complete",
       "image": ""
     },
@@ -108,6 +108,6 @@
     "Bug Bounty",
     "Offensive AI"
   ],
-  "footer": "© 1bm0",
+  "footer": "Copyright © 2026 1bm0. All Rights Reserved.",
   "theme": "red"
 }

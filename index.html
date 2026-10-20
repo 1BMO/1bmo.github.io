@@ -169,6 +169,17 @@ footer{border-top:1px solid var(--line);margin-top:70px;padding:24px 0 40px;colo
 @media (max-width:560px){.icat{width:30%;right:8px;bottom:6px}.ithumbs button{width:72px}}
 .ibtn[hidden]{display:none}
 @media (max-width:560px){nav .links{gap:12px;flex-wrap:wrap}.tt{white-space:nowrap}}
+
+/* pedal */
+.pedal{display:flex;flex-direction:column;align-items:center;gap:8px;background:none;border:0;padding:0;margin:0;cursor:pointer;color:var(--text);font-family:var(--mono);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+.pbase{display:flex;align-items:flex-end;justify-content:center;width:86px;height:126px;perspective:420px;background:#0c0e12;border:1px solid var(--line);border-radius:10px}
+.ppad{display:block;width:54px;height:108px;margin-bottom:8px;border-radius:8px 8px 12px 12px;background:repeating-linear-gradient(180deg,#2c313b 0 6px,#1a1d23 6px 11px);border:1px solid #3b424e;transform-origin:50% 100%;transition:transform .12s ease,box-shadow .12s,border-color .12s}
+.pedal:hover .ppad{border-color:var(--acc)}
+.pedal.down .ppad{transform:rotateX(34deg) scale(.97);border-color:var(--acc);box-shadow:0 0 16px var(--acc)}
+.pedal:focus-visible{outline:2px solid var(--acc);outline-offset:4px;border-radius:10px}
+.plbl{font-size:13px;font-weight:700}
+.ictl{align-items:flex-end}
+@media (prefers-reduced-motion:reduce){.ppad{transition:none}}
 </style>
 </head>
 <body>
@@ -214,10 +225,11 @@ footer{border-top:1px solid var(--line);margin-top:70px;padding:24px 0 40px;colo
   <div class="icat"><img id="icatImg" src="interests/cat-closed.webp" alt="A kitten wrapped in a towel" width="200" height="200"></div>
  </div>
  <div class="ictl">
-  <button type="button" class="btn ibtn" id="accel">Acceleration</button>
+  <button type="button" class="pedal" id="accel" aria-label="Acceleration pedal. Hold to rev, release to idle."><span class="pbase"><span class="ppad"></span></span><span class="plbl">Acceleration</span></button>
   <button type="button" class="btn ghost ibtn" id="engoff" hidden>Engine off</button>
-  <span class="ihint" id="ihint">sound plays after you press the button</span>
+  <span class="ihint" id="ihint">hold the pedal to rev, release to idle</span>
  </div>
+ <audio id="revAudio" src="interests/engine-rev.mp3" preload="none" loop></audio>
  <audio id="idleAudio" src="interests/engine-idle.mp3" preload="none" loop></audio>
 </section>
 
@@ -313,33 +325,36 @@ try{localStorage.setItem("intro","1")}catch(e){}
 (function(){var b=document.getElementById("replay"),h=document.documentElement;if(!b)return;
  b.addEventListener("click",function(){h.classList.add("nointro");void h.offsetWidth;h.classList.remove("nointro")})})();
 
-var eng={busy:false,iv:null,t:[],au:document.getElementById("idleAudio")};
-function stopEngine(){if(!eng)return;clearInterval(eng.iv);eng.t.forEach(clearTimeout);eng.t=[];var a=eng.au;
- if(a){a.pause();try{a.currentTime=0;a.playbackRate=1}catch(e){}}
- var b=document.getElementById("engoff"),c=document.getElementById("icatImg"),k=document.getElementById("accel");if(b)b.hidden=true;if(c)c.src="interests/cat-closed.webp";if(k)k.disabled=false;eng.busy=false}
+var eng={down:false,iv:null,tr:0,ti:0,au:document.getElementById("idleAudio"),rv:document.getElementById("revAudio")};
+function engUI(){var c=document.getElementById("icatImg"),k=document.getElementById("accel");if(c)c.src="interests/cat-"+(eng.down?"open":"closed")+".webp";if(k)k.classList.toggle("down",eng.down)}
+function stopEngine(){if(!eng)return;clearInterval(eng.iv);eng.iv=null;eng.down=false;eng.tr=0;eng.ti=0;
+ [eng.au,eng.rv].forEach(function(a){if(a){a.pause();try{a.currentTime=0}catch(e){}}});
+ var b=document.getElementById("engoff"),h=document.getElementById("ihint");if(b)b.hidden=true;if(h)h.textContent="hold the pedal to rev, release to idle";engUI()}
 (function(){
- var ac=document.getElementById("accel"),off=document.getElementById("engoff"),cat=document.getElementById("icatImg"),hint=document.getElementById("ihint"),au=eng.au;
+ var ac=document.getElementById("accel"),off=document.getElementById("engoff"),hint=document.getElementById("ihint");
  if(!ac)return;
- var HINT="sound plays after you press the button";
- // rev: the idle recording is sped up (pitch rises with it), held, then dropped back
- function rate(t){var U=1500,H=350,D=900,top=2.3;
-  if(t<U){var x=t/U;return 1+(top-1)*x*x}
-  if(t<U+H)return top;
-  if(t<U+H+D){var y=(t-U-H)/D;return top-(top-1)*(1-(1-y)*(1-y))}
-  return 1}
- ac.addEventListener("click",function(){
-  if(eng.busy)return;stopEngine();eng.busy=true;ac.disabled=true;
-  cat.src="interests/cat-open.webp";hint.textContent="accelerating";
-  au.preservesPitch=false;au.mozPreservesPitch=false;au.webkitPreservesPitch=false;
-  au.volume=.8;au.playbackRate=1;
-  var p=au.play();
-  if(p&&p.catch)p.catch(function(){hint.textContent="no engine sound file found";stopEngine()});
-  var t0=Date.now(),T=2750;
-  eng.iv=setInterval(function(){var t=Date.now()-t0;
-   if(t>=T){clearInterval(eng.iv);au.playbackRate=1;au.volume=.7;cat.src="interests/cat-closed.webp";ac.disabled=false;eng.busy=false;
-    if(!au.paused){off.hidden=false;hint.textContent="idling"}return}
-   try{au.playbackRate=rate(t)}catch(e){}},30)});
- off.addEventListener("click",function(){stopEngine();hint.textContent=HINT});
+ var RV=.8,ID=.85,fail=function(){hint.textContent="no engine sound file found";stopEngine()};
+ function step(a,t,r){return a<t?Math.min(t,a+r):Math.max(t,a-r)}
+ function tick(){
+  var r=step(eng.rv.volume,eng.tr,eng.down?.16:.07),i=step(eng.au.volume,eng.ti,.08);
+  eng.rv.volume=r;eng.au.volume=i;
+  if(!eng.down&&r<=.001&&!eng.rv.paused){eng.rv.pause();try{eng.rv.currentTime=0}catch(e){}}}
+ function press(){
+  if(eng.down)return;eng.down=true;engUI();hint.textContent="revving";
+  eng.tr=RV;eng.ti=.12;
+  if(eng.rv.paused){try{eng.rv.currentTime=0}catch(e){}eng.rv.volume=0;var p=eng.rv.play();if(p&&p.catch)p.catch(fail)}
+  if(eng.au.paused){eng.au.volume=0;var q=eng.au.play();if(q&&q.catch)q.catch(fail)}
+  off.hidden=false;if(!eng.iv)eng.iv=setInterval(tick,30)}
+ function release(){
+  if(!eng.down)return;eng.down=false;engUI();hint.textContent="idling";eng.tr=0;eng.ti=ID}
+ ac.addEventListener("pointerdown",function(e){if(e.button>0)return;e.preventDefault();try{ac.setPointerCapture(e.pointerId)}catch(x){}press()});
+ ac.addEventListener("pointerup",release);ac.addEventListener("pointercancel",release);ac.addEventListener("lostpointercapture",release);
+ ac.addEventListener("contextmenu",function(e){e.preventDefault()});
+ ac.addEventListener("keydown",function(e){if((e.key===" "||e.key==="Enter")&&!e.repeat){e.preventDefault();press()}});
+ ac.addEventListener("keyup",function(e){if(e.key===" "||e.key==="Enter"){e.preventDefault();release()}});
+ ac.addEventListener("blur",release);window.addEventListener("blur",release);
+ document.addEventListener("visibilitychange",function(){if(document.hidden)release()});
+ off.addEventListener("click",function(){stopEngine()});
 })();
 var DEF_IMG=(document.querySelector(".cprev img")||{}).src||"";
 function mk(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}

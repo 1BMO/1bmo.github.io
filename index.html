@@ -131,13 +131,54 @@ footer{border-top:1px solid var(--line);margin-top:70px;padding:24px 0 40px;colo
 @media (max-width:760px){.hero{grid-template-columns:1fr;gap:20px;text-align:center}.hero-logo{max-width:320px}.hero p{margin-left:auto;margin-right:auto}}
 /* returning visitors: no intro, everything already in place */
 .nointro .pc,.nointro .hero h1,.nointro .hero p,.nointro .hero .btn{animation:none!important}
+
+/* contact */
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ct-text{color:var(--mute);margin:0 0 14px;max-width:60ch}
+.ct{display:flex;align-items:center;gap:14px;width:100%;padding:18px 20px;background:var(--panel);border:1px solid var(--line);border-radius:12px;color:var(--text);text-decoration:none;font:inherit;text-align:left;cursor:pointer;transition:border-color .2s,transform .2s}
+.ct:hover{border-color:var(--acc);transform:translateY(-2px)}
+.ct svg{width:26px;height:26px;color:var(--acc);flex:none}
+.ct b{display:block;font-family:var(--mono);font-size:15px}
+.ct small{display:block;color:var(--mute);font-family:var(--mono);font-size:13px}
+@media (max-width:560px){.contact{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.ct{transition:none}.ct:hover{transform:none}}
+
+/* contact inside hero, under the bio */
+.hero-copy h2{font-size:16px;margin:30px 0 12px}
+.hero-copy .contact{gap:12px}
+.hero-copy .ct{padding:12px 14px;gap:10px}
+.hero-copy .ct svg{width:22px;height:22px}
+.hero-copy .ct b{font-size:14px}
+.hero-copy .ct small{font-size:12px}
+
+/* interests */
+.istage{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);aspect-ratio:3/2}
+.icar{position:absolute;inset:0}
+.icar img{width:100%;height:100%;object-fit:cover;display:block;user-select:none;-webkit-user-drag:none}
+.icat{position:absolute;right:14px;bottom:10px;width:min(24%,170px);pointer-events:none}
+.icat img{width:100%;height:auto;display:block;filter:drop-shadow(0 6px 10px rgba(0,0,0,.5))}
+.icap{position:absolute;left:14px;bottom:12px;font-family:var(--mono);font-size:12px;color:#fff;background:rgba(8,9,11,.65);padding:3px 9px;border-radius:6px}
+.ithumbs{display:flex;gap:10px;margin:12px 0 4px}
+.ithumbs button{padding:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:none;cursor:pointer;width:84px;aspect-ratio:3/2;opacity:.65}
+.ithumbs button.on,.ithumbs button:hover{opacity:1;border-color:var(--acc)}
+.ithumbs img{width:100%;height:100%;object-fit:cover;display:block}
+.ictl{display:flex;align-items:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+.ibtn{border:0;cursor:pointer;margin:0}
+.ibtn:disabled{opacity:.6;cursor:default}
+.ihint{color:var(--mute);font-family:var(--mono);font-size:12px}
+.shake{animation:shk 2s linear both}
+@keyframes shk{0%{transform:none}6%{transform:translate(-16px,9px) rotate(-2.2deg) scale(1.04)}12%{transform:translate(14px,-12px) rotate(1.8deg) scale(1.06)}18%{transform:translate(-10px,-14px) rotate(2.6deg) scale(1.03)}24%{transform:translate(18px,8px) rotate(-1.6deg) scale(1.07)}30%{transform:translate(-18px,-6px) rotate(-2.8deg) scale(1.05)}36%{transform:translate(12px,14px) rotate(2deg) scale(1.04)}42%{transform:translate(-14px,12px) rotate(-2.4deg) scale(1.07)}48%{transform:translate(16px,-10px) rotate(2.8deg) scale(1.05)}54%{transform:translate(-12px,-16px) rotate(-1.8deg) scale(1.06)}60%{transform:translate(14px,10px) rotate(2.2deg) scale(1.04)}68%{transform:translate(-10px,8px) rotate(-1.4deg) scale(1.05)}78%{transform:translate(8px,-6px) rotate(1deg) scale(1.03)}88%{transform:translate(-4px,3px) rotate(-.5deg) scale(1.01)}100%{transform:none}}
+@media (prefers-reduced-motion:reduce){.shake{animation:none}}
+@media (max-width:560px){.icat{width:30%;right:8px;bottom:6px}.ithumbs button{width:72px}}
+.ibtn[hidden]{display:none}
+@media (max-width:560px){nav .links{gap:12px;flex-wrap:wrap}.tt{white-space:nowrap}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <nav>
  <a href="#home" class="logo" aria-label="1bm0 home">1bm<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M12 1v5M12 18v5M1 12h5M18 12h5"/></svg></a>
- <div class="links"><a href="#home" data-v="home">About</a><a href="#writeups" data-v="writeups">Writeups</a><button class="tt" id="tt" aria-label="Switch color theme">theme: red</button></div>
+ <div class="links"><a href="#home" data-v="home">About</a><a href="#writeups" data-v="writeups">Writeups</a><a href="#interests" data-v="interests">Interests</a><a href="#contact">Contact</a><button class="tt" id="tt" aria-label="Switch color theme">theme: red</button></div>
 </nav>
 
 <main>
@@ -147,7 +188,9 @@ footer{border-top:1px solid var(--line);margin-top:70px;padding:24px 0 40px;colo
   <div class="hero-copy">
   <h1>1bm0. Penetration tester.</h1>
   <p>I’m an error-based human who likes breaking AI, web apps and Active Directory environments, then writing up how it happened so it can be fixed. CPTS certified, built entirely through hands-on lab work.</p>
-  <a class="btn" href="#writeups">Read writeups</a><a class="btn ghost" href="#certs">See certifications</a></div>
+  <a class="btn" href="#writeups">Read writeups</a><a class="btn ghost" href="#certs">See certifications</a>
+  <h2 id="contact">Wanna reach out?</h2>
+ <div id="contactBox"><div class="contact"><a class="ct" href="https://t.me/El_BMO" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span><b>Telegram</b><small>@El_BMO</small></span></a><button type="button" class="ct" data-copy="1bm0" aria-label="Copy Discord username 1bm0"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg><span><b>Discord</b><small>1bm0</small></span></button></div></div></div>
  </div>
 
  <h2 id="certs">Certifications</h2>
@@ -163,6 +206,27 @@ footer{border-top:1px solid var(--line);margin-top:70px;padding:24px 0 40px;colo
  <div id="skills"><div class="sg"><h3>CPTS <em>· penetration testing</em></h3><div class="skills"><span>Pentest methodology</span><span>Recon & enumeration</span><span>Footprinting</span><span>Vulnerability assessment</span><span>Manual & automated exploitation</span><span>Attacking Windows & Linux</span><span>Windows & Linux privilege escalation</span><span>Post-exploitation</span><span>Pivoting & tunneling</span><span>Lateral movement</span><span>Active Directory attacks</span><span>Kerberos & ACL abuse</span><span>AD trusts</span><span>Web app pentesting</span><span>Risk communication & reporting</span></div></div>
  <div class="sg"><h3>CWES <em>· web exploitation</em></h3><div class="skills"><span>HTTP & web requests</span><span>Intercepting proxies</span><span>Web recon</span><span>Fuzzing</span><span>JavaScript deobfuscation</span><span>XSS</span><span>SQL injection</span><span>SQLMap</span><span>Command injection</span><span>File upload attacks</span><span>File inclusion</span><span>Server-side attacks</span><span>Login brute forcing</span><span>Broken authentication</span><span>IDOR / XXE / verb tampering</span><span>API attacks</span><span>GraphQL attacks</span><span>Attacking common apps</span><span>Bug bounty methodology</span><span>OWASP Top 10 · Web</span></div></div>
  <div class="sg"><h3>COAE <em>· offensive AI · in progress</em></h3><div class="skills"><span>Adversarial ML</span><span>Data poisoning</span><span>Evasion attacks</span><span>LLM prompt injection</span><span>LLM jailbreaking</span><span>LLM output exploitation</span><span>AI app & system security</span><span>AI supply chain risks</span><span>AI privacy attacks</span><span>AI defense</span><span>AI red-team assessments</span><span>OWASP Top 10 · LLM</span><span>OWASP Top 10 · ML</span></div></div></div>
+
+</section>
+
+<section class="view" id="v-interests">
+ <h2 style="margin-top:30px">Interests</h2>
+ <div class="istage">
+  <div class="icar" id="icar"><img id="icarImg" src="interests/furai-front.webp" alt="Mazda Furai concept race car, front three-quarter view" width="1400" height="933"></div>
+  <span class="icap">Mazda Furai</span>
+  <div class="icat"><img id="icatImg" src="interests/cat-closed.webp" alt="A kitten wrapped in a towel" width="200" height="200"></div>
+ </div>
+ <div class="ithumbs" id="ithumbs">
+  <button type="button" class="on" data-src="interests/furai-front.webp" data-alt="Mazda Furai concept race car, front three-quarter view" aria-label="Front view"><img src="interests/furai-front.webp" alt=""></button>
+  <button type="button" data-src="interests/furai-side.webp" data-alt="Mazda Furai concept race car, side three-quarter view" aria-label="Side view"><img src="interests/furai-side.webp" alt=""></button>
+  <button type="button" data-src="interests/furai-rear.webp" data-alt="Mazda Furai concept race car, rear view" aria-label="Rear view"><img src="interests/furai-rear.webp" alt=""></button>
+ </div>
+ <div class="ictl">
+  <button type="button" class="btn ibtn" id="accel">Acceleration</button>
+  <button type="button" class="btn ghost ibtn" id="engoff" hidden>Engine off</button>
+  <span class="ihint" id="ihint">sound plays after you press the button</span>
+ </div>
+ <audio id="idleAudio" src="interests/furai-idle.mp3" preload="none" loop></audio>
 </section>
 
 <section class="view" id="v-writeups">
@@ -193,11 +257,12 @@ function renderW(){
 }
 function route(){
  var hs=location.hash,v="home",slug=null;
- if(hs==="#writeups")v="writeups";else if(hs.indexOf("#w/")===0){v="post";slug=decodeURIComponent(hs.slice(3))}
+ if(hs==="#writeups")v="writeups";else if(hs==="#interests")v="interests";else if(hs.indexOf("#w/")===0){v="post";slug=decodeURIComponent(hs.slice(3))}
  document.querySelectorAll(".view").forEach(function(e){e.classList.toggle("on",e.id==="v-"+v)});
  document.querySelectorAll("nav a[data-v]").forEach(function(a){a.classList.toggle("on",a.dataset.v===(v==="post"?"writeups":v))});
  if(v==="home"){setTimeout(function(){document.querySelectorAll(".bar i").forEach(function(i){i.style.width=i.dataset.w+"%"})},150)}
  else{document.querySelectorAll(".bar i").forEach(function(i){i.style.width="0"});window.scrollTo(0,0)}
+ if(v!=="interests")stopEngine();
  if(v==="post")loadPost(slug);
 }
 
@@ -255,8 +320,46 @@ initMascot();
 try{localStorage.setItem("intro","1")}catch(e){}
 (function(){var b=document.getElementById("replay"),h=document.documentElement;if(!b)return;
  b.addEventListener("click",function(){h.classList.add("nointro");void h.offsetWidth;h.classList.remove("nointro")})})();
+
+var eng={busy:false,au:document.getElementById("idleAudio")};
+function stopEngine(){var a=eng&&eng.au,b=document.getElementById("engoff");if(a){a.pause();try{a.currentTime=0}catch(e){}}if(b)b.hidden=true}
+(function(){
+ var ac=document.getElementById("accel"),off=document.getElementById("engoff"),car=document.getElementById("icar"),cat=document.getElementById("icatImg"),hint=document.getElementById("ihint"),img=document.getElementById("icarImg");
+ if(!ac)return;
+ ac.addEventListener("click",function(){
+  if(eng.busy)return;eng.busy=true;ac.disabled=true;stopEngine();
+  var rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  cat.src="interests/cat-open.webp";car.classList.remove("shake");void car.offsetWidth;if(!rm)car.classList.add("shake");
+  setTimeout(function(){
+   car.classList.remove("shake");cat.src="interests/cat-closed.webp";
+   var p=eng.au.play();if(p&&p.then)p.then(function(){off.hidden=false;hint.textContent="idling"},function(){hint.textContent="no engine sound file found"});
+   eng.busy=false;ac.disabled=false},rm?900:2000)});
+ off.addEventListener("click",function(){stopEngine();hint.textContent="sound plays after you press the button"});
+ document.getElementById("ithumbs").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;
+  img.src=b.dataset.src;img.alt=b.dataset.alt;[].forEach.call(this.children,function(x){x.classList.toggle("on",x===b)})});
+})();
 var DEF_IMG=(document.querySelector(".cprev img")||{}).src||"";
 function mk(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+
+var ICO={send:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>',chat:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>',link:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>'};
+function ctIcon(l){l=String(l||"").toLowerCase();return l.indexOf("telegram")>=0?ICO.send:l.indexOf("discord")>=0?ICO.chat:ICO.link}
+function renderContact(ct){
+ var box=document.getElementById("contactBox"),h=document.getElementById("contact");if(!box||!h)return;
+ if(ct.title!=null)h.textContent=ct.title;box.innerHTML="";
+ if(ct.text){box.appendChild(mk("p","ct-text",ct.text))}
+ var g=mk("div","contact");
+ (ct.items||[]).forEach(function(it){
+  var u=String(it.url||""),ok=/^https?:\/\//i.test(u),el;
+  if(ok){el=document.createElement("a");el.href=u;el.target="_blank";el.rel="noopener noreferrer"}
+  else{el=document.createElement("button");el.type="button";el.dataset.copy=it.handle||"";el.setAttribute("aria-label","Copy "+(it.label||"")+" username "+(it.handle||""))}
+  el.className="ct";el.insertAdjacentHTML("afterbegin",ctIcon(it.label));
+  var sp=document.createElement("span");sp.appendChild(mk("b",null,it.label));sp.appendChild(mk("small",null,it.handle));el.appendChild(sp);g.appendChild(el)});
+ box.appendChild(g)}
+document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".ct[data-copy]");if(!b)return;
+ var t=b.getAttribute("data-copy"),sm=b.querySelector("small"),old=sm.textContent;
+ function done(){sm.textContent="copied";setTimeout(function(){sm.textContent=old},1500)}
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){fb()})}else fb();
+ function fb(){var a=document.createElement("textarea");a.value=t;a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();try{document.execCommand("copy");done()}catch(x){}a.remove()}});
 function applyC(c){
  if(c.hero){var h1=document.querySelector(".hero h1"),p=document.querySelector(".hero p"),b=document.querySelectorAll(".hero .btn");
   if(c.hero.title!=null)h1.textContent=c.hero.title;if(c.hero.text!=null)p.textContent=c.hero.text;if(c.hero.btn1!=null)b[0].textContent=c.hero.btn1;if(c.hero.btn2!=null)b[1].textContent=c.hero.btn2}
@@ -269,6 +372,7 @@ function applyC(c){
   initTilt();if(document.getElementById("v-home").classList.contains("on"))setTimeout(function(){document.querySelectorAll(".bar i").forEach(function(i){i.style.width=i.dataset.w+"%"})},150)}
  if(c.about&&c.about.length){var a=document.querySelector(".about");a.innerHTML="";c.about.forEach(function(t){a.appendChild(mk("p",null,t))})}
  if(c.skills){var sk=document.getElementById("skills");sk.innerHTML="";c.skills.forEach(function(g){var d=mk("div","sg"),h3=mk("h3",null,g.group+(g.sub?" ":""));if(g.sub)h3.appendChild(mk("em",null,"· "+g.sub));d.appendChild(h3);var l=mk("div","skills");(g.items||[]).forEach(function(s){l.appendChild(mk("span",null,s))});d.appendChild(l);sk.appendChild(d)})}
+ if(c.contact)renderContact(c.contact);
  if(c.cats&&c.cats.length){CATS=["All"].concat(c.cats);if(CATS.indexOf(cat)<0)cat="All";renderW()}
  if(c.footer!=null)document.querySelector("footer").textContent=c.footer;
  var st=null;try{st=localStorage.getItem("t")}catch(e){}if(!st&&(c.theme==="red"||c.theme==="blue"))setT(c.theme)}

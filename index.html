@@ -166,9 +166,6 @@ footer{border-top:1px solid var(--line);margin-top:70px;padding:24px 0 40px;colo
 .ibtn{border:0;cursor:pointer;margin:0}
 .ibtn:disabled{opacity:.6;cursor:default}
 .ihint{color:var(--mute);font-family:var(--mono);font-size:12px}
-.shake{animation:shk 2s linear both}
-@keyframes shk{0%{transform:none}6%{transform:translate(-16px,9px) rotate(-2.2deg) scale(1.04)}12%{transform:translate(14px,-12px) rotate(1.8deg) scale(1.06)}18%{transform:translate(-10px,-14px) rotate(2.6deg) scale(1.03)}24%{transform:translate(18px,8px) rotate(-1.6deg) scale(1.07)}30%{transform:translate(-18px,-6px) rotate(-2.8deg) scale(1.05)}36%{transform:translate(12px,14px) rotate(2deg) scale(1.04)}42%{transform:translate(-14px,12px) rotate(-2.4deg) scale(1.07)}48%{transform:translate(16px,-10px) rotate(2.8deg) scale(1.05)}54%{transform:translate(-12px,-16px) rotate(-1.8deg) scale(1.06)}60%{transform:translate(14px,10px) rotate(2.2deg) scale(1.04)}68%{transform:translate(-10px,8px) rotate(-1.4deg) scale(1.05)}78%{transform:translate(8px,-6px) rotate(1deg) scale(1.03)}88%{transform:translate(-4px,3px) rotate(-.5deg) scale(1.01)}100%{transform:none}}
-@media (prefers-reduced-motion:reduce){.shake{animation:none}}
 @media (max-width:560px){.icat{width:30%;right:8px;bottom:6px}.ithumbs button{width:72px}}
 .ibtn[hidden]{display:none}
 @media (max-width:560px){nav .links{gap:12px;flex-wrap:wrap}.tt{white-space:nowrap}}
@@ -212,21 +209,16 @@ footer{border-top:1px solid var(--line);margin-top:70px;padding:24px 0 40px;colo
 <section class="view" id="v-interests">
  <h2 style="margin-top:30px">Interests</h2>
  <div class="istage">
-  <div class="icar" id="icar"><img id="icarImg" src="interests/furai-front.webp" alt="Mazda Furai concept race car, front three-quarter view" width="1400" height="933"></div>
-  <span class="icap">Mazda Furai</span>
+  <div class="icar" id="icar"><img id="icarImg" src="interests/rx7.webp" alt="Mazda RX-7 parked under cherry blossoms" width="1080" height="720"></div>
+  <span class="icap" id="icap">Mazda RX-7</span>
   <div class="icat"><img id="icatImg" src="interests/cat-closed.webp" alt="A kitten wrapped in a towel" width="200" height="200"></div>
- </div>
- <div class="ithumbs" id="ithumbs">
-  <button type="button" class="on" data-src="interests/furai-front.webp" data-alt="Mazda Furai concept race car, front three-quarter view" aria-label="Front view"><img src="interests/furai-front.webp" alt=""></button>
-  <button type="button" data-src="interests/furai-side.webp" data-alt="Mazda Furai concept race car, side three-quarter view" aria-label="Side view"><img src="interests/furai-side.webp" alt=""></button>
-  <button type="button" data-src="interests/furai-rear.webp" data-alt="Mazda Furai concept race car, rear view" aria-label="Rear view"><img src="interests/furai-rear.webp" alt=""></button>
  </div>
  <div class="ictl">
   <button type="button" class="btn ibtn" id="accel">Acceleration</button>
   <button type="button" class="btn ghost ibtn" id="engoff" hidden>Engine off</button>
   <span class="ihint" id="ihint">sound plays after you press the button</span>
  </div>
- <audio id="idleAudio" src="interests/furai-idle.mp3" preload="none" loop></audio>
+ <audio id="idleAudio" src="interests/engine-idle.mp3" preload="none" loop></audio>
 </section>
 
 <section class="view" id="v-writeups">
@@ -321,22 +313,33 @@ try{localStorage.setItem("intro","1")}catch(e){}
 (function(){var b=document.getElementById("replay"),h=document.documentElement;if(!b)return;
  b.addEventListener("click",function(){h.classList.add("nointro");void h.offsetWidth;h.classList.remove("nointro")})})();
 
-var eng={busy:false,au:document.getElementById("idleAudio")};
-function stopEngine(){var a=eng&&eng.au,b=document.getElementById("engoff");if(a){a.pause();try{a.currentTime=0}catch(e){}}if(b)b.hidden=true}
+var eng={busy:false,iv:null,t:[],au:document.getElementById("idleAudio")};
+function stopEngine(){if(!eng)return;clearInterval(eng.iv);eng.t.forEach(clearTimeout);eng.t=[];var a=eng.au;
+ if(a){a.pause();try{a.currentTime=0;a.playbackRate=1}catch(e){}}
+ var b=document.getElementById("engoff"),c=document.getElementById("icatImg"),k=document.getElementById("accel");if(b)b.hidden=true;if(c)c.src="interests/cat-closed.webp";if(k)k.disabled=false;eng.busy=false}
 (function(){
- var ac=document.getElementById("accel"),off=document.getElementById("engoff"),car=document.getElementById("icar"),cat=document.getElementById("icatImg"),hint=document.getElementById("ihint"),img=document.getElementById("icarImg");
+ var ac=document.getElementById("accel"),off=document.getElementById("engoff"),cat=document.getElementById("icatImg"),hint=document.getElementById("ihint"),au=eng.au;
  if(!ac)return;
+ var HINT="sound plays after you press the button";
+ // rev: the idle recording is sped up (pitch rises with it), held, then dropped back
+ function rate(t){var U=1500,H=350,D=900,top=2.3;
+  if(t<U){var x=t/U;return 1+(top-1)*x*x}
+  if(t<U+H)return top;
+  if(t<U+H+D){var y=(t-U-H)/D;return top-(top-1)*(1-(1-y)*(1-y))}
+  return 1}
  ac.addEventListener("click",function(){
-  if(eng.busy)return;eng.busy=true;ac.disabled=true;stopEngine();
-  var rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
-  cat.src="interests/cat-open.webp";car.classList.remove("shake");void car.offsetWidth;if(!rm)car.classList.add("shake");
-  setTimeout(function(){
-   car.classList.remove("shake");cat.src="interests/cat-closed.webp";
-   var p=eng.au.play();if(p&&p.then)p.then(function(){off.hidden=false;hint.textContent="idling"},function(){hint.textContent="no engine sound file found"});
-   eng.busy=false;ac.disabled=false},rm?900:2000)});
- off.addEventListener("click",function(){stopEngine();hint.textContent="sound plays after you press the button"});
- document.getElementById("ithumbs").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;
-  img.src=b.dataset.src;img.alt=b.dataset.alt;[].forEach.call(this.children,function(x){x.classList.toggle("on",x===b)})});
+  if(eng.busy)return;stopEngine();eng.busy=true;ac.disabled=true;
+  cat.src="interests/cat-open.webp";hint.textContent="accelerating";
+  au.preservesPitch=false;au.mozPreservesPitch=false;au.webkitPreservesPitch=false;
+  au.volume=.8;au.playbackRate=1;
+  var p=au.play();
+  if(p&&p.catch)p.catch(function(){hint.textContent="no engine sound file found";stopEngine()});
+  var t0=Date.now(),T=2750;
+  eng.iv=setInterval(function(){var t=Date.now()-t0;
+   if(t>=T){clearInterval(eng.iv);au.playbackRate=1;au.volume=.7;cat.src="interests/cat-closed.webp";ac.disabled=false;eng.busy=false;
+    if(!au.paused){off.hidden=false;hint.textContent="idling"}return}
+   try{au.playbackRate=rate(t)}catch(e){}},30)});
+ off.addEventListener("click",function(){stopEngine();hint.textContent=HINT});
 })();
 var DEF_IMG=(document.querySelector(".cprev img")||{}).src||"";
 function mk(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}

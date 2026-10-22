@@ -72,6 +72,17 @@ function md(s){
   fl();fq();para.push(l)});
  fp();fl();fq();return out.join("\n")}
 
+var LOADED=true,WARN="";
+function errMsg(w,s){var m={401:"the token is invalid or expired",403:"the token has no write permission (needs Contents: read & write)",404:"repository, branch or token access is wrong (GitHub answers 404 when the token cannot see the repository)",409:"the file changed on GitHub meanwhile, reload this page and try again",422:"the file changed on GitHub meanwhile, reload this page and try again"};return w+": "+s+(m[s]?" - "+m[s]:"")}
+async function diagnose(){var c=cfg(),base="https://api.github.com/repos/"+encodeURIComponent(c.owner)+"/"+encodeURIComponent(c.repo);
+ try{var r=await fetch(base,{headers:hd(),cache:"no-store"});
+  if(r.status===401)return "The token is invalid or expired. Create a new one and connect again. Showing default values, do not save.";
+  if(r.status===404)return "Repository "+c.owner+"/"+c.repo+" was not found with this token. Check the username and repository name, and that the token was given access to this repository (Contents: read & write). Showing default values, do not save.";
+  if(!r.ok)return "GitHub answered "+r.status+" while checking the repository. Showing default values, do not save.";
+  var b=await fetch(base+"/branches/"+encodeURIComponent(c.branch),{headers:hd(),cache:"no-store"});
+  if(b.status===404)return "Branch '"+c.branch+"' does not exist in "+c.owner+"/"+c.repo+". Showing default values, do not save.";
+  return "content.json was not found in "+c.owner+"/"+c.repo+" (branch '"+c.branch+"'). Showing default values; saving will create the file."}
+ catch(e){return "Could not reach GitHub. Showing default values, do not save."}}
 function say(m,c){var e=$("st");e.className=c||"";e.textContent=m}
 function cfg(){var r=sessionStorage.getItem("g")||localStorage.getItem("g");return r?JSON.parse(r):null}
 function enc(s){var b=new TextEncoder().encode(s),r="";for(var i=0;i<b.length;i++)r+=String.fromCharCode(b[i]);return btoa(r)}
@@ -79,8 +90,8 @@ function dec(b){var r=atob(b.replace(/\n/g,"")),a=new Uint8Array(r.length);for(v
 function url(p){var c=cfg();return "https://api.github.com/repos/"+encodeURIComponent(c.owner)+"/"+encodeURIComponent(c.repo)+"/contents/"+p}
 function hd(){return {"Authorization":"Bearer "+cfg().token,"Accept":"application/vnd.github+json"}}
 async function get(p){var r=await fetch(url(p)+"?ref="+encodeURIComponent(cfg().branch)+"&t="+Date.now(),{headers:hd(),cache:"no-store"});if(r.status===404)return null;if(!r.ok)throw new Error("GitHub error "+r.status+" (check token, repo name and permissions)");var j=await r.json();return{sha:j.sha,text:dec(j.content)}}
-async function put(p,c64,msg,sha){var b={message:msg,content:c64,branch:cfg().branch};if(sha)b.sha=sha;var r=await fetch(url(p),{method:"PUT",headers:hd(),body:JSON.stringify(b)});if(!r.ok)throw new Error("Save failed: "+r.status);return r.json()}
-async function del(p,sha){var r=await fetch(url(p),{method:"DELETE",headers:hd(),body:JSON.stringify({message:"Delete "+p,sha:sha,branch:cfg().branch})});if(!r.ok)throw new Error("Delete failed: "+r.status)}
+async function put(p,c64,msg,sha){var b={message:msg,content:c64,branch:cfg().branch};if(sha)b.sha=sha;var r=await fetch(url(p),{method:"PUT",headers:hd(),body:JSON.stringify(b)});if(!r.ok)throw new Error(errMsg("Save failed",r.status));return r.json()}
+async function del(p,sha){var r=await fetch(url(p),{method:"DELETE",headers:hd(),body:JSON.stringify({message:"Delete "+p,sha:sha,branch:cfg().branch})});if(!r.ok)throw new Error(errMsg("Delete failed",r.status))}
 function slugify(t){return t.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,60)||"writeup-"+Date.now().toString(36)}
 async function loadIdx(){var f=await get("writeups/index.json");IDX=f?JSON.parse(f.text||"[]"):[];renderList()}
 function renderList(){var l=$("list");l.innerHTML="";if(!IDX.length){l.innerHTML='<small style="color:#8a919d">No writeups yet.</small>';return}
@@ -100,7 +111,7 @@ async function publish(){var t=$("t").value.trim();if(!t){say("Title is required
 function shrink(file){return new Promise(function(res,rej){var im=new Image(),u=URL.createObjectURL(file);im.onload=function(){var s=Math.min(1,1600/im.width),c=document.createElement("canvas");c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext("2d").drawImage(im,0,0,c.width,c.height);var png=file.type==="image/png";
  c.toBlob(function(b){URL.revokeObjectURL(u);var r=new FileReader();r.onload=function(){res({b64:r.result.split(",")[1],ext:png?"png":"jpg"})};r.readAsDataURL(b)},png?"image/png":"image/jpeg",.9)};im.onerror=rej;im.src=u})}
 async function upImg(file){try{say("Uploading image…");var o=await shrink(file),n="writeups/img/"+Date.now().toString(36)+"."+o.ext;await put(n,o.b64,"Add image");var ta=$("body"),p=ta.selectionStart||ta.value.length,ins="\n![]("+n+")\n";ta.value=ta.value.slice(0,p)+ins+ta.value.slice(p);say("Image added (metadata stripped, original filename not kept).","ok")}catch(e){say(e.message||"Image failed","er")}}
-async function connect(){var c=cfg();if(!c)return;try{say("Connecting…");await loadSite();await loadIdx();$("main").hidden=false;blank();say("Connected.","ok")}catch(e){$("main").hidden=true;say(e.message,"er")}}
+async function connect(){var c=cfg();if(!c)return;try{say("Connecting…");await loadSite();await loadIdx();$("main").hidden=false;blank();if(WARN)say(WARN,"er");else say("Connected.","ok")}catch(e){$("main").hidden=true;say(e.message,"er")}}
 function clone(o){return JSON.parse(JSON.stringify(o))}
 function mk(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
 function fld(label,val,fn,o){o=o||{};var w=mk("div"),i=document.createElement(o.area?"textarea":"input");if(o.type)i.type=o.type;if(o.area)i.style.minHeight=(o.h||80)+"px";i.value=val==null?"":val;i.oninput=function(){fn(i.value)};w.append(mk("label",null,label),i);return w}
@@ -110,7 +121,7 @@ function mvi(a,i,d){var j=i+d;if(j<0||j>=a.length)return;var t=a[i];a[i]=a[j];a[
 function lines(v){return v.split("\n").map(function(x){return x.trim()}).filter(Boolean)}
 function catOpt(c){var s=$("cat");if(c&&![].some.call(s.options,function(o){return o.value===c})){s.append(mk("option",null,c))}}
 function fillCats(){var s=$("cat"),v=s.value;s.innerHTML="";C.cats.forEach(function(c){s.append(mk("option",null,c))});if(v){catOpt(v);s.value=v}}
-async function loadSite(){var f=await get("content.json"),d=clone(DEF);if(f){var j=JSON.parse(f.text);Object.keys(j).forEach(function(k){d[k]=j[k]})}C=d;if(!C.cats||!C.cats.length)C.cats=clone(DEF.cats);renderSite();fillCats()}
+async function loadSite(){var f=await get("content.json"),d=clone(DEF);LOADED=!!f;WARN=f?"":await diagnose();if(f){var j=JSON.parse(f.text);Object.keys(j).forEach(function(k){d[k]=j[k]})}C=d;if(!C.cats||!C.cats.length)C.cats=clone(DEF.cats);renderSite();fillCats()}
 function pickImg(t){var f=document.createElement("input");f.type="file";f.accept="image/*";f.onchange=async function(){if(!f.files[0])return;try{say("Uploading image…");var o=await shrink(f.files[0]),n="content/img/"+Date.now().toString(36)+"."+o.ext;await put(n,o.b64,"Add image");t.image=n;renderSite();say("Image uploaded. It shows after you save site content.","ok")}catch(e){say(e.message||"Image failed","er")}};f.click()}
 function normProg(p){if(Array.isArray(p))return p;var a=[];if(p&&typeof p==="object"){(p.modules||[]).forEach(function(m){a.push({title:m.name,tag:m.path||"Academy",date:m.date})});(p.boxes||[]).forEach(function(x){a.push({title:x.name,tag:"Lab",date:x.date,note:[x.os,x.diff].filter(Boolean).join(" · "),url:x.writeup})})}return a}
 function renderSite(){
@@ -150,7 +161,7 @@ function renderSite(){
  pr.append(btn("+ Add entry (at the top)",function(){C.progress.unshift({title:"",tag:"",date:new Date().toISOString().slice(0,10),note:"",url:""});renderSite()}));
  var o=card("Site");o.append(fld("Writeup categories (one per line; renaming one does not rename existing writeups)",C.cats.join("\n"),function(v){C.cats=lines(v)},{area:1,h:100}),fld("Footer text",C.footer,function(v){C.footer=v}));
  var th=mk("div");th.append(mk("label",null,"Default theme for new visitors"));var sl=mk("select");["red","blue"].forEach(function(t){var op=mk("option",null,t);if(C.theme===t)op.selected=true;sl.append(op)});sl.onchange=function(){C.theme=sl.value};th.append(sl);o.append(th)}
-async function saveSite(){try{$("saveS").disabled=true;say("Saving…");if(!C.cats.length)C.cats=clone(DEF.cats);C.progress=normProg(C.progress).filter(function(x){return x&&String(x.title||"").trim()});var f=await get("content.json");await put("content.json",enc(JSON.stringify(C,null,2)+"\n"),"Update site content",f&&f.sha);fillCats();say("Saved. The site updates in about a minute.","ok")}catch(e){say(e.message,"er")}finally{$("saveS").disabled=false}}
+async function saveSite(){if(!LOADED&&!confirm("content.json could not be loaded, so this form shows DEFAULT values. Saving will replace the live content with them. Continue only if you are sure the file does not exist."))return;try{$("saveS").disabled=true;say("Saving…");if(!C.cats.length)C.cats=clone(DEF.cats);C.progress=normProg(C.progress).filter(function(x){return x&&String(x.title||"").trim()});var f=await get("content.json");await put("content.json",enc(JSON.stringify(C,null,2)+"\n"),"Update site content",f&&f.sha);LOADED=true;WARN="";fillCats();say("Saved. The site updates in about a minute.","ok")}catch(e){say(e.message,"er")}finally{$("saveS").disabled=false}}
 function tab(w){$("pS").hidden=w!=="S";$("pW").hidden=w!=="W";$("tS").className=w==="S"?"g on":"g";$("tW").className=w==="W"?"g on":"g"}
 $("tS").onclick=function(){tab("S")};$("tW").onclick=function(){tab("W")};$("saveS").onclick=saveSite;tab("S");
 var c0=cfg();if(c0){$("o").value=c0.owner;$("r").value=c0.repo;$("b").value=c0.branch;connect()}

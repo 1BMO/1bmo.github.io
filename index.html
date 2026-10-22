@@ -180,13 +180,25 @@ footer{border-top:1px solid var(--line);margin-top:70px;padding:24px 0 40px;colo
 .plbl{font-size:13px;font-weight:700}
 .ictl{align-items:flex-end}
 @media (prefers-reduced-motion:reduce){.ppad{transition:none}}
+
+/* progress feed */
+.pitem{display:grid;grid-template-columns:100px minmax(0,1fr);gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
+.pitem:first-child{border-top:1px solid var(--line)}
+.pdate{font-family:var(--mono);font-size:12px;color:var(--mute);padding-top:4px}
+.pbody b{font-family:var(--mono);font-size:15px;font-weight:600;overflow-wrap:anywhere}
+.ptags{display:inline-flex;gap:6px;flex-wrap:wrap;margin-left:8px;vertical-align:middle}
+.ptag{border:1px solid var(--line);border-radius:999px;padding:0 9px;font-family:var(--mono);font-size:11px;color:var(--mute)}
+.pbody p{margin:6px 0 0;color:var(--mute);font-size:14px;white-space:pre-line;overflow-wrap:anywhere}
+.pbody a{display:block;width:fit-content;margin-top:8px;color:var(--acc);font-family:var(--mono);font-size:13px;text-decoration:none}
+.pbody a:hover{text-decoration:underline}
+@media (max-width:560px){.pitem{grid-template-columns:1fr;gap:4px}.pdate{padding-top:0}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <nav>
  <a href="#home" class="logo" aria-label="1bm0 home">1bm<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M12 1v5M12 18v5M1 12h5M18 12h5"/></svg></a>
- <div class="links"><a href="#home" data-v="home">About</a><a href="#writeups" data-v="writeups">Writeups</a><a href="#interests" data-v="interests">Interests</a><a href="#contact">Contact</a><button class="tt" id="tt" aria-label="Switch color theme">theme: red</button></div>
+ <div class="links"><a href="#home" data-v="home">About</a><a href="#writeups" data-v="writeups">Writeups</a><a href="#progress" data-v="progress">Progress</a><a href="#interests" data-v="interests">Interests</a><a href="#contact">Contact</a><button class="tt" id="tt" aria-label="Switch color theme">theme: red</button></div>
 </nav>
 
 <main>
@@ -215,6 +227,12 @@ footer{border-top:1px solid var(--line);margin-top:70px;padding:24px 0 40px;colo
  <div class="sg"><h3>CWES <em>· web exploitation</em></h3><div class="skills"><span>HTTP & web requests</span><span>Intercepting proxies</span><span>Web recon</span><span>Fuzzing</span><span>JavaScript deobfuscation</span><span>XSS</span><span>SQL injection</span><span>SQLMap</span><span>Command injection</span><span>File upload attacks</span><span>File inclusion</span><span>Server-side attacks</span><span>Login brute forcing</span><span>Broken authentication</span><span>IDOR / XXE / verb tampering</span><span>API attacks</span><span>GraphQL attacks</span><span>Attacking common apps</span><span>Bug bounty methodology</span><span>OWASP Top 10 · Web</span></div></div>
  <div class="sg"><h3>COAE <em>· offensive AI · in progress</em></h3><div class="skills"><span>Adversarial ML</span><span>Data poisoning</span><span>Evasion attacks</span><span>LLM prompt injection</span><span>LLM jailbreaking</span><span>LLM output exploitation</span><span>AI app & system security</span><span>AI supply chain risks</span><span>AI privacy attacks</span><span>AI defense</span><span>AI red-team assessments</span><span>OWASP Top 10 · LLM</span><span>OWASP Top 10 · ML</span></div></div></div>
 
+</section>
+
+<section class="view" id="v-progress">
+ <h2 style="margin-top:30px">Progress</h2>
+ <div class="chips" id="pchips"></div>
+ <div id="plist"><div class="empty">Nothing posted yet.</div></div>
 </section>
 
 <section class="view" id="v-interests">
@@ -259,7 +277,7 @@ function renderW(){
 }
 function route(){
  var hs=location.hash,v="home",slug=null;
- if(hs==="#writeups")v="writeups";else if(hs==="#interests")v="interests";else if(hs.indexOf("#w/")===0){v="post";slug=decodeURIComponent(hs.slice(3))}
+ if(hs==="#writeups")v="writeups";else if(hs==="#interests")v="interests";else if(hs==="#progress")v="progress";else if(hs.indexOf("#w/")===0){v="post";slug=decodeURIComponent(hs.slice(3))}
  document.querySelectorAll(".view").forEach(function(e){e.classList.toggle("on",e.id==="v-"+v)});
  document.querySelectorAll("nav a[data-v]").forEach(function(a){a.classList.toggle("on",a.dataset.v===(v==="post"?"writeups":v))});
  if(v==="home"){setTimeout(function(){document.querySelectorAll(".bar i").forEach(function(i){i.style.width=i.dataset.w+"%"})},150)}
@@ -404,6 +422,26 @@ document.addEventListener("click",function(e){var b=e.target.closest&&e.target.c
  function done(){sm.textContent="copied";setTimeout(function(){sm.textContent=old},1500)}
  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){fb()})}else fb();
  function fb(){var a=document.createElement("textarea");a.value=t;a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();try{document.execCommand("copy");done()}catch(x){}a.remove()}});
+
+var PROG=[],progTag="All";
+function normProg(p){if(Array.isArray(p))return p;var a=[];if(p&&typeof p==="object"){(p.modules||[]).forEach(function(m){a.push({title:m.name,tag:m.path||"Academy",date:m.date})});(p.boxes||[]).forEach(function(x){a.push({title:x.name,tag:"Lab",date:x.date,note:[x.os,x.diff].filter(Boolean).join(" · "),url:x.writeup})})}return a}
+var PROG=[],ptag="All";
+// feed entries: {title, tag, date, note, url}. Old {modules, boxes} data is converted on the fly.
+function normProgress(p){if(Array.isArray(p))return p;var a=[];if(p&&typeof p==="object"){(p.modules||[]).forEach(function(m){a.push({title:m.name,tag:m.path||"Academy",date:m.date})});(p.boxes||[]).forEach(function(x){a.push({title:x.name,tag:"Lab",date:x.date,note:[x.os,x.diff].filter(Boolean).join(" · "),url:x.writeup})})}return a}
+function renderProgress(){
+ var c=document.getElementById("pchips"),l=document.getElementById("plist");if(!l)return;
+ var tags=[];PROG.forEach(function(x){if(!x||!String(x.title||"").trim())return;var t=String(x.tag||"").trim();if(t&&tags.indexOf(t)<0)tags.push(t)});
+ if(ptag!=="All"&&tags.indexOf(ptag)<0)ptag="All";
+ c.innerHTML="";if(tags.length>1){["All"].concat(tags).forEach(function(n){var b=document.createElement("button");b.textContent=n;if(n===ptag)b.className="on";b.onclick=function(){ptag=n;renderProgress()};c.appendChild(b)})}
+ var items=PROG.filter(function(x){return x&&String(x.title||"").trim()&&(ptag==="All"||String(x.tag||"").trim()===ptag)});
+ l.innerHTML="";if(!items.length){l.appendChild(mk("div","empty","Nothing posted yet."));return}
+ items.forEach(function(x){var r=mk("div","pitem");r.appendChild(mk("div","pdate",x.date||""));var b=mk("div","pbody");b.appendChild(mk("b",null,x.title));
+  if(x.tag){var g=mk("span","ptags");g.appendChild(mk("span","ptag",x.tag));b.appendChild(g)}
+  if(x.note)b.appendChild(mk("p",null,x.note));
+  var u=String(x.url||"").trim();
+  if(/^https?:\/\//i.test(u)){var a=mk("a",null,"open link ↗");a.href=u;a.target="_blank";a.rel="noopener noreferrer";b.appendChild(a)}
+  else if(u&&/^[a-z0-9-]+$/.test(u)){var w=mk("a",null,"read writeup →");w.href="#w/"+u;b.appendChild(w)}
+  r.appendChild(b);l.appendChild(r)})}
 function applyC(c){
  if(c.hero){var h1=document.querySelector(".hero h1"),p=document.querySelector(".hero p"),b=document.querySelectorAll(".hero .btn");
   if(c.hero.title!=null)h1.textContent=c.hero.title;if(c.hero.text!=null)p.textContent=c.hero.text;if(c.hero.btn1!=null)b[0].textContent=c.hero.btn1;if(c.hero.btn2!=null)b[1].textContent=c.hero.btn2}
@@ -417,6 +455,7 @@ function applyC(c){
  if(c.about&&c.about.length){var a=document.querySelector(".about");a.innerHTML="";c.about.forEach(function(t){a.appendChild(mk("p",null,t))})}
  if(c.skills){var sk=document.getElementById("skills");sk.innerHTML="";c.skills.forEach(function(g){var d=mk("div","sg"),h3=mk("h3",null,g.group+(g.sub?" ":""));if(g.sub)h3.appendChild(mk("em",null,"· "+g.sub));d.appendChild(h3);var l=mk("div","skills");(g.items||[]).forEach(function(s){l.appendChild(mk("span",null,s))});d.appendChild(l);sk.appendChild(d)})}
  if(c.contact)renderContact(c.contact);
+ if(c.progress){PROG=normProgress(c.progress);renderProgress()}
  if(c.cats&&c.cats.length){CATS=["All"].concat(c.cats);if(CATS.indexOf(cat)<0)cat="All";renderW()}
  if(c.footer!=null)document.querySelector("footer").textContent=c.footer;
  var st=null;try{st=localStorage.getItem("t")}catch(e){}if(!st&&(c.theme==="red"||c.theme==="blue"))setT(c.theme)}

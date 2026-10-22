@@ -109,5 +109,22 @@
     "Offensive AI"
   ],
   "footer": "Copyright © 2026 1bm0. All Rights Reserved.",
-  "theme": "red"
+  "theme": "red",
+  "progress": [
+    {
+      "title": "AI Data Attacks",
+      "tag": "HTB Academy",
+      "date": "2026-10-22",
+      "note": "A really HARD and LONG module the test your programming skills and your MATH , or your ability to use AI ;)",
+      "url": "https://academy.hackthebox.com/achievement/1975371/302"
+    }
+  ],
+  "progressCats": [
+    "HTB Academy",
+    "HTB Labs",
+    "Certification",
+    "Bug bounty",
+    "Project",
+    "Other"
+  ]
 }

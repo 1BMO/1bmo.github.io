@@ -16,8 +16,8 @@
     {
       "name": "CWES",
       "desc": "HTB Web Exploitation Specialist. Job role path fully completed. I chose not to sit the exam.",
-      "pct": 90,
-      "label": "Path almost complete",
+      "pct": 100,
+      "label": "Path complete",
       "image": ""
     },
     {
@@ -108,8 +108,22 @@
     "Bug Bounty",
     "Offensive AI"
   ],
-  "footer": "Copyright © 2026 1bm0. All Rights Reserved.",
-  "theme": "red",
+  "contact": {
+    "title": "Wanna reach out?",
+    "text": "",
+    "items": [
+      {
+        "label": "Telegram",
+        "handle": "@El_BMO",
+        "url": "https://t.me/El_BMO"
+      },
+      {
+        "label": "Discord",
+        "handle": "1bm0",
+        "url": ""
+      }
+    ]
+  },
   "progress": [
     {
       "title": "Web Penetration Tester path",
@@ -161,5 +175,7 @@
     "Bug bounty",
     "Project",
     "Other"
-  ]
+  ],
+  "footer": "Copyright © 2026 1bm0. All Rights Reserved.",
+  "theme": "red"
 }

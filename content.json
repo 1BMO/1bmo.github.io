@@ -112,6 +112,13 @@
   "theme": "red",
   "progress": [
     {
+      "title": "API Attacks module",
+      "tag": "HTB Academy",
+      "date": "2026-10-26",
+      "note": "OWASP API Security Top 10",
+      "url": "https://academy.hackthebox.com/achievement/1975371/268"
+    },
+    {
       "title": "Attacking GraphQL module",
       "tag": "HTB Academy",
       "date": "2026-10-26",

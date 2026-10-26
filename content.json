@@ -112,6 +112,13 @@
   "theme": "red",
   "progress": [
     {
+      "title": "Attacking GraphQL module",
+      "tag": "",
+      "date": "2026-10-26",
+      "note": "",
+      "url": "https://academy.hackthebox.com/achievement/1975371/271"
+    },
+    {
       "title": "Broken Authentication module",
       "tag": "HTB Academy",
       "date": "2026-10-26",

@@ -186,6 +186,7 @@ footer{border-top:1px solid var(--line);margin-top:70px;padding:24px 0 40px;colo
 .pitem:first-child{border-top:1px solid var(--line)}
 .pdate{font-family:var(--mono);font-size:12px;color:var(--mute);padding-top:4px}
 .pbody b{font-family:var(--mono);font-size:15px;font-weight:600;overflow-wrap:anywhere}
+.pimg{float:right;width:56px;height:56px;object-fit:cover;border-radius:10px;border:1px solid var(--line);margin:0 0 6px 12px;background:var(--bg,#000)}
 .ptags{display:inline-flex;gap:6px;flex-wrap:wrap;margin-left:8px;vertical-align:middle}
 .ptag{border:1px solid var(--line);border-radius:999px;padding:0 9px;font-family:var(--mono);font-size:11px;color:var(--mute)}
 .pbody p{margin:6px 0 0;color:var(--mute);font-size:14px;white-space:pre-line;overflow-wrap:anywhere}
@@ -440,11 +441,11 @@ function renderProgress(){
  c.innerHTML="";if(tags.length>1){["All"].concat(tags).forEach(function(n){var b=document.createElement("button");b.textContent=n;if(n===ptag)b.className="on";b.onclick=function(){ptag=n;renderProgress()};c.appendChild(b)})}
  var items=ALLP.filter(function(x){return x&&String(x.title||"").trim()&&(ptag==="All"||String(x.tag||"").trim()===ptag)});
  l.innerHTML="";if(!items.length){l.appendChild(mk("div","empty","Nothing posted yet."));return}
- items.forEach(function(x){var r=mk("div","pitem");r.appendChild(mk("div","pdate",x.date||""));var b=mk("div","pbody");b.appendChild(mk("b",null,x.title));
+ items.forEach(function(x){var r=mk("div","pitem");r.appendChild(mk("div","pdate",x.date||""));var b=mk("div","pbody");var im=String(x.img||"");if(/^htb-img\/[A-Za-z0-9._-]+$/.test(im)){var pic=document.createElement("img");pic.src=im;pic.alt="";pic.className="pimg";pic.loading="lazy";pic.onerror=function(){pic.remove()};b.appendChild(pic)}b.appendChild(mk("b",null,x.title));
   if(x.tag){var g=mk("span","ptags");g.appendChild(mk("span","ptag",x.tag));b.appendChild(g)}
   if(x.note)b.appendChild(mk("p",null,x.note));
   var u=String(x.url||"").trim();
-  if(/^https?:\/\//i.test(u)){var a=mk("a",null,"open link ↗");a.href=u;a.target="_blank";a.rel="noopener noreferrer";b.appendChild(a)}
+  if(/^https?:\/\//i.test(u)){var a=mk("a",null,/^https:\/\/app\.hackthebox\.com\//.test(u)?"view on HTB ↗":"open link ↗");a.href=u;a.target="_blank";a.rel="noopener noreferrer";b.appendChild(a)}
   else if(u&&/^[a-z0-9-]+$/.test(u)){var w=mk("a",null,"read writeup →");w.href="#w/"+u;b.appendChild(w)}
   r.appendChild(b);l.appendChild(r)})}
 function applyC(c){

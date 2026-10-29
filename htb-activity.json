@@ -1,5 +1,6 @@
 [
   {
+    "url": "https://app.hackthebox.com/machines/Layover",
     "title": "Rooted Layover",
     "date": "2026-09-30",
     "note": "Machine · root",
@@ -10,10 +11,12 @@
     "title": "Solved Criticalops",
     "date": "2026-08-30",
     "note": "Challenge",
+    "url": "https://app.hackthebox.com/challenges/Criticalops",
     "id": "challenge:965",
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/SmartHire",
     "title": "Rooted SmartHire",
     "date": "2026-08-21",
     "note": "Machine · root",
@@ -21,6 +24,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/DanglingTree",
     "title": "Rooted DanglingTree",
     "date": "2026-08-11",
     "note": "Machine · root",
@@ -28,6 +32,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Snoopy",
     "title": "Rooted Snoopy",
     "date": "2026-08-09",
     "note": "Machine · root",
@@ -35,6 +40,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Redelegate",
     "title": "Rooted Redelegate",
     "date": "2026-08-07",
     "note": "Machine · root",
@@ -42,6 +48,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Craft",
     "title": "Rooted Craft",
     "date": "2026-08-07",
     "note": "Machine · root",
@@ -49,6 +56,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Authority",
     "title": "Rooted Authority",
     "date": "2026-08-06",
     "note": "Machine · root",
@@ -56,6 +64,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Voleur",
     "title": "Rooted Voleur",
     "date": "2026-08-05",
     "note": "Machine · root",
@@ -63,6 +72,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/StreamIO",
     "title": "Rooted StreamIO",
     "date": "2026-08-05",
     "note": "Machine · root",
@@ -70,6 +80,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/VulnCicada",
     "title": "Rooted VulnCicada",
     "date": "2026-08-03",
     "note": "Machine · root",
@@ -77,6 +88,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Media",
     "title": "Rooted Media",
     "date": "2026-08-03",
     "note": "Machine · root",
@@ -84,6 +96,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/TombWatcher",
     "title": "Rooted TombWatcher",
     "date": "2026-08-02",
     "note": "Machine · root",
@@ -91,6 +104,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Cohort",
     "title": "Rooted Cohort",
     "date": "2026-08-02",
     "note": "Machine · root",
@@ -98,6 +112,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Pov",
     "title": "Rooted Pov",
     "date": "2026-08-01",
     "note": "Machine · root",
@@ -105,6 +120,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Postman",
     "title": "Rooted Postman",
     "date": "2026-08-01",
     "note": "Machine · root",
@@ -112,6 +128,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Jeeves",
     "title": "Rooted Jeeves",
     "date": "2026-08-01",
     "note": "Machine · root",
@@ -119,6 +136,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/DarkZeroReturns",
     "title": "Rooted DarkZeroReturns",
     "date": "2026-07-30",
     "note": "Machine · root",
@@ -126,6 +144,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Bedside",
     "title": "Rooted Bedside",
     "date": "2026-07-22",
     "note": "Machine · root",
@@ -133,6 +152,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Editorial",
     "title": "Got user on Editorial",
     "date": "2026-07-16",
     "note": "Machine · user flag",
@@ -140,6 +160,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Soccer",
     "title": "Rooted Soccer",
     "date": "2026-07-13",
     "note": "Machine · root",
@@ -147,6 +168,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Active",
     "title": "Rooted Active",
     "date": "2026-07-13",
     "note": "Machine · root",
@@ -154,6 +176,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Union",
     "title": "Rooted Union",
     "date": "2026-07-12",
     "note": "Machine · root",
@@ -161,6 +184,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Paperwork",
     "title": "Rooted Paperwork",
     "date": "2026-07-11",
     "note": "Machine · root",
@@ -168,6 +192,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Fluffy",
     "title": "Rooted Fluffy",
     "date": "2026-07-10",
     "note": "Machine · root",
@@ -175,6 +200,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Forest",
     "title": "Rooted Forest",
     "date": "2026-07-08",
     "note": "Machine · root",
@@ -182,6 +208,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/MakeSense",
     "title": "Rooted MakeSense",
     "date": "2026-07-07",
     "note": "Machine · root",
@@ -189,6 +216,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Enigma",
     "title": "Rooted Enigma",
     "date": "2026-07-04",
     "note": "Machine · root",
@@ -196,6 +224,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Nimbus",
     "title": "Rooted Nimbus",
     "date": "2026-06-23",
     "note": "Machine · root",
@@ -203,6 +232,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Nexus",
     "title": "Got user on Nexus",
     "date": "2026-06-23",
     "note": "Machine · user flag",
@@ -210,6 +240,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/TwoMillion",
     "title": "Rooted TwoMillion",
     "date": "2026-06-22",
     "note": "Machine · root",
@@ -217,6 +248,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Checkpoint",
     "title": "Rooted Checkpoint",
     "date": "2026-06-19",
     "note": "Machine · root",
@@ -224,6 +256,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Connected",
     "title": "Rooted Connected",
     "date": "2026-06-12",
     "note": "Machine · root",
@@ -231,6 +264,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/DevHub",
     "title": "Rooted DevHub",
     "date": "2026-06-06",
     "note": "Machine · root",
@@ -238,6 +272,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Reactor",
     "title": "Rooted Reactor",
     "date": "2026-05-28",
     "note": "Machine · root",
@@ -245,6 +280,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Trick",
     "title": "Rooted Trick",
     "date": "2026-05-12",
     "note": "Machine · root",
@@ -252,6 +288,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Helix",
     "title": "Rooted Helix",
     "date": "2026-05-11",
     "note": "Machine · root",
@@ -259,6 +296,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Bruno",
     "title": "Rooted Bruno",
     "date": "2026-04-27",
     "note": "Machine · root",
@@ -266,6 +304,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Breach",
     "title": "Rooted Breach",
     "date": "2026-04-27",
     "note": "Machine · root",
@@ -273,6 +312,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Administrator",
     "title": "Rooted Administrator",
     "date": "2026-04-27",
     "note": "Machine · root",
@@ -280,6 +320,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Logging",
     "title": "Rooted Logging",
     "date": "2026-04-22",
     "note": "Machine · root",
@@ -287,6 +328,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Silentium",
     "title": "Rooted Silentium",
     "date": "2026-04-12",
     "note": "Machine · root",
@@ -294,6 +336,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Garfield",
     "title": "Rooted Garfield",
     "date": "2026-04-05",
     "note": "Machine · root",
@@ -301,6 +344,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/DevArea",
     "title": "Rooted DevArea",
     "date": "2026-04-02",
     "note": "Machine · root",
@@ -308,6 +352,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Kobold",
     "title": "Rooted Kobold",
     "date": "2026-03-26",
     "note": "Machine · root",
@@ -315,6 +360,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/VariaType",
     "title": "Rooted VariaType",
     "date": "2026-03-16",
     "note": "Machine · root",
@@ -322,6 +368,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/CCTV",
     "title": "Rooted CCTV",
     "date": "2026-03-07",
     "note": "Machine · root",
@@ -329,6 +376,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Pirate",
     "title": "Rooted Pirate",
     "date": "2026-03-06",
     "note": "Machine · root",
@@ -336,6 +384,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Interpreter",
     "title": "Rooted Interpreter",
     "date": "2026-02-25",
     "note": "Machine · root",
@@ -343,6 +392,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/WingData",
     "title": "Rooted WingData",
     "date": "2026-02-14",
     "note": "Machine · root",
@@ -350,6 +400,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Pterodactyl",
     "title": "Rooted Pterodactyl",
     "date": "2026-02-07",
     "note": "Machine · root",
@@ -357,6 +408,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Facts",
     "title": "Rooted Facts",
     "date": "2026-01-31",
     "note": "Machine · root",
@@ -364,6 +416,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Overwatch",
     "title": "Rooted Overwatch",
     "date": "2026-01-27",
     "note": "Machine · root",
@@ -371,6 +424,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Giveback",
     "title": "Rooted Giveback",
     "date": "2026-01-19",
     "note": "Machine · root",
@@ -378,6 +432,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Browsed",
     "title": "Rooted Browsed",
     "date": "2026-01-17",
     "note": "Machine · root",
@@ -385,6 +440,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Eloquia",
     "title": "Rooted Eloquia",
     "date": "2025-12-16",
     "note": "Machine · root",
@@ -392,6 +448,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/MonitorsFour",
     "title": "Rooted MonitorsFour",
     "date": "2025-12-09",
     "note": "Machine · root",
@@ -399,6 +456,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Editor",
     "title": "Rooted Editor",
     "date": "2025-12-03",
     "note": "Machine · root",
@@ -406,6 +464,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Gavel",
     "title": "Rooted Gavel",
     "date": "2025-12-02",
     "note": "Machine · root",
@@ -413,6 +472,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Eighteen",
     "title": "Rooted Eighteen",
     "date": "2025-11-22",
     "note": "Machine · root",
@@ -420,6 +480,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Conversor",
     "title": "Rooted Conversor",
     "date": "2025-11-12",
     "note": "Machine · root",
@@ -430,6 +491,7 @@
     "title": "Solved The Suspicious Reviewer",
     "date": "2025-10-16",
     "note": "Challenge",
+    "url": "https://app.hackthebox.com/challenges/The%20Suspicious%20Reviewer",
     "id": "challenge:972",
     "tag": "HTB Labs"
   },
@@ -437,6 +499,7 @@
     "title": "Solved The Suspicious Domain",
     "date": "2025-10-16",
     "note": "Challenge",
+    "url": "https://app.hackthebox.com/challenges/The%20Suspicious%20Domain",
     "id": "challenge:973",
     "tag": "HTB Labs"
   },
@@ -444,6 +507,7 @@
     "title": "Solved Follow The Money",
     "date": "2025-10-16",
     "note": "Challenge",
+    "url": "https://app.hackthebox.com/challenges/Follow%20The%20Money",
     "id": "challenge:976",
     "tag": "HTB Labs"
   },
@@ -451,6 +515,7 @@
     "title": "Solved Evaluative",
     "date": "2025-10-16",
     "note": "Challenge",
+    "url": "https://app.hackthebox.com/challenges/Evaluative",
     "id": "challenge:868",
     "tag": "HTB Labs"
   },
@@ -458,6 +523,7 @@
     "title": "Solved The Puppet Master",
     "date": "2025-10-15",
     "note": "Challenge",
+    "url": "https://app.hackthebox.com/challenges/The%20Puppet%20Master",
     "id": "challenge:977",
     "tag": "HTB Labs"
   },
@@ -465,10 +531,12 @@
     "title": "Solved Social Media Investigation Hub",
     "date": "2025-10-15",
     "note": "Challenge",
+    "url": "https://app.hackthebox.com/challenges/Social%20Media%20Investigation%20Hub",
     "id": "challenge:975",
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Signed",
     "title": "Rooted Signed",
     "date": "2025-10-14",
     "note": "Machine · root",
@@ -479,10 +547,12 @@
     "title": "Solved Flag Command",
     "date": "2025-10-09",
     "note": "Challenge",
+    "url": "https://app.hackthebox.com/challenges/Flag%20Command",
     "id": "challenge:646",
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Soulmate",
     "title": "Rooted Soulmate",
     "date": "2025-10-05",
     "note": "Machine · root",
@@ -490,6 +560,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/DarkZero",
     "title": "Rooted DarkZero",
     "date": "2025-10-05",
     "note": "Machine · root",
@@ -497,6 +568,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Imagery",
     "title": "Rooted Imagery",
     "date": "2025-09-27",
     "note": "Machine · root",
@@ -504,6 +576,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/CodePartTwo",
     "title": "Rooted CodePartTwo",
     "date": "2025-09-27",
     "note": "Machine · root",
@@ -511,6 +584,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Expressway",
     "title": "Rooted Expressway",
     "date": "2025-09-20",
     "note": "Machine · root",
@@ -518,6 +592,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Sau",
     "title": "Rooted Sau",
     "date": "2025-07-09",
     "note": "Machine · root",
@@ -525,6 +600,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Nibbles",
     "title": "Rooted Nibbles",
     "date": "2025-07-04",
     "note": "Machine · root",
@@ -532,6 +608,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Jerry",
     "title": "Rooted Jerry",
     "date": "2025-07-04",
     "note": "Machine · root",
@@ -539,6 +616,7 @@
     "tag": "HTB Labs"
   },
   {
+    "url": "https://app.hackthebox.com/machines/Cap",
     "title": "Rooted Cap",
     "date": "2025-07-03",
     "note": "Machine · root",

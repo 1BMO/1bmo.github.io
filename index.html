@@ -30,6 +30,13 @@ nav a:focus-visible,button:focus-visible{outline:2px solid var(--acc);outline-of
 .btn.ghost{background:none;color:var(--text);border:1px solid var(--line)}
 .btn.ghost:hover{border-color:var(--acc)}
 h2{font-family:var(--mono);font-size:20px;margin:52px 0 18px}
+.xp{display:grid;gap:14px}
+.xrow{display:grid;grid-template-columns:minmax(120px,200px) 1fr auto;gap:14px;align-items:center;font-family:var(--mono);font-size:13px}
+.xrow .xn{color:var(--fg,#e6e6e6);font-weight:600}
+.xrow .xl{color:var(--acc);white-space:nowrap}
+.xrow .bar{height:10px}
+.xrow .xs{grid-column:2/4;color:var(--mute);font-size:11px;margin-top:-8px;text-align:right}
+@media (max-width:560px){.xrow{grid-template-columns:1fr auto}.xrow .bar{grid-column:1/-1}.xrow .xs{grid-column:1/-1}}
 .certs{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
 .cert{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;border-top:3px solid var(--acc)}
 .cert b{font-family:var(--mono);font-size:30px;display:block;letter-spacing:-1px}
@@ -223,6 +230,7 @@ footer{border-top:1px solid var(--line);margin-top:70px;padding:24px 0 40px;colo
 
  <h2>About</h2>
  <div class="about"><p>Some people call me a sentient glitch. I prefer error-based human: hand me something broken and I get weirdly happy. Not because I like chaos, but because every error message is a free hint about how the thing really works.</p><p>That curiosity became about two years of lab work, a Pro Hacker rank on HTB, and an HTB CPTS. Mostly web apps and Active Directory, and lately AI, which fails in surprisingly familiar ways. The part I care about most comes after the break: writing it up clearly enough that someone can actually fix it. I report with SysReptor and let Python handle the boring parts.</p><p>Next goal is bug bounty hunting. Until then I’m open to junior pentesting, vulnerability assessment, and security analyst roles.</p></div>
+ <div id="xpWrap" style="display:none"><h2>Skill levels</h2><div class="xp" id="xp"></div></div>
  <h2>Skills</h2>
  <div id="skills"><div class="sg"><h3>CPTS <em>· penetration testing</em></h3><div class="skills"><span>Pentest methodology</span><span>Recon & enumeration</span><span>Footprinting</span><span>Vulnerability assessment</span><span>Manual & automated exploitation</span><span>Attacking Windows & Linux</span><span>Windows & Linux privilege escalation</span><span>Post-exploitation</span><span>Pivoting & tunneling</span><span>Lateral movement</span><span>Active Directory attacks</span><span>Kerberos & ACL abuse</span><span>AD trusts</span><span>Web app pentesting</span><span>Risk communication & reporting</span></div></div>
  <div class="sg"><h3>CWES <em>· web exploitation</em></h3><div class="skills"><span>HTTP & web requests</span><span>Intercepting proxies</span><span>Web recon</span><span>Fuzzing</span><span>JavaScript deobfuscation</span><span>XSS</span><span>SQL injection</span><span>SQLMap</span><span>Command injection</span><span>File upload attacks</span><span>File inclusion</span><span>Server-side attacks</span><span>Login brute forcing</span><span>Broken authentication</span><span>IDOR / XXE / verb tampering</span><span>API attacks</span><span>GraphQL attacks</span><span>Attacking common apps</span><span>Bug bounty methodology</span><span>OWASP Top 10 · Web</span></div></div>
@@ -429,6 +437,17 @@ function normProg(p){if(Array.isArray(p))return p;var a=[];if(p&&typeof p==="obj
 var PROG=[],PCATS=[],ptag="All";
 // feed entries: {title, tag, date, note, url}. Old {modules, boxes} data is converted on the fly.
 function normProgress(p){if(Array.isArray(p))return p;var a=[];if(p&&typeof p==="object"){(p.modules||[]).forEach(function(m){a.push({title:m.name,tag:m.path||"Academy",date:m.date})});(p.boxes||[]).forEach(function(x){a.push({title:x.name,tag:"Lab",date:x.date,note:[x.os,x.diff].filter(Boolean).join(" · "),url:x.writeup})})}return a}
+var DEF_XP=[{"name": "Web exploitation", "xp": 742}, {"name": "Active Directory", "xp": 668}, {"name": "Privilege escalation", "xp": 615}, {"name": "Pivoting & tunneling", "xp": 453}, {"name": "Offensive AI", "xp": 327}, {"name": "Bug bounty", "xp": 118}];
+function renderXP(list){var w=document.getElementById("xpWrap"),b=document.getElementById("xp");if(!w||!b)return;b.innerHTML="";
+ var rows=(Array.isArray(list)?list:[]).filter(function(x){return x&&String(x.name||"").trim()});
+ if(!rows.length){w.style.display="none";return}
+ w.style.display="";
+ rows.forEach(function(x){var xp=Math.max(0,Math.min(9899,Math.floor(+x.xp||0))),lv=Math.floor(xp/100)+1,cur=xp%100;
+  var r=mk("div","xrow");r.appendChild(mk("span","xn",x.name));
+  var bar=mk("div","bar"),f=document.createElement("i");f.dataset.w=cur;bar.appendChild(f);r.appendChild(bar);
+  r.appendChild(mk("span","xl","Lv "+lv));r.appendChild(mk("span","xs",cur+" / 100 XP"));b.appendChild(r)});
+ if(document.getElementById("v-home").classList.contains("on"))setTimeout(function(){document.querySelectorAll(".xrow .bar i").forEach(function(i){i.style.width=i.dataset.w+"%"})},150)}
+renderXP(DEF_XP);
 var AUTO=[];
 // AUTO = entries written by the HTB sync workflow (htb-activity.json); shown together with the manual ones, newest first
 function allProg(){var m=PROG.concat(AUTO);if(!AUTO.length)return m;return m.map(function(x,i){return[x,i]}).sort(function(a,b){var d=String((b[0]&&b[0].date)||"").localeCompare(String((a[0]&&a[0].date)||""));return d||a[1]-b[1]}).map(function(p){return p[0]})}
@@ -461,6 +480,7 @@ function applyC(c){
  if(c.about&&c.about.length){var a=document.querySelector(".about");a.innerHTML="";c.about.forEach(function(t){a.appendChild(mk("p",null,t))})}
  if(c.skills){var sk=document.getElementById("skills");sk.innerHTML="";c.skills.forEach(function(g){var d=mk("div","sg"),h3=mk("h3",null,g.group+(g.sub?" ":""));if(g.sub)h3.appendChild(mk("em",null,"· "+g.sub));d.appendChild(h3);var l=mk("div","skills");(g.items||[]).forEach(function(s){l.appendChild(mk("span",null,s))});d.appendChild(l);sk.appendChild(d)})}
  if(c.contact)renderContact(c.contact);
+ renderXP(Array.isArray(c.xp)?c.xp:DEF_XP);
  if(c.progress){PROG=normProgress(c.progress);PCATS=c.progressCats||[];renderProgress()}
  if(c.cats&&c.cats.length){CATS=["All"].concat(c.cats);if(CATS.indexOf(cat)<0)cat="All";renderW()}
  if(c.footer!=null)document.querySelector("footer").textContent=c.footer;

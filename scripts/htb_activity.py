@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# NOTE: VERSION 3 (diagnostic). If the Actions log starts with "htb_activity.py v3" and, on failure, shows
+# a "--- probe ---" section, this is the right file.
 """Pull my Hack The Box activity and keep it in htb-activity.json (shown on the Progress page).
 
 Secrets come from the environment only (GitHub Actions secrets), never from files:
@@ -67,6 +69,32 @@ def pick(body):
     raise ValueError("no activity list")
 
 
+PROBE = ["/api/v4/user/profile/basic/", "/api/v4/profile/", "/api/v4/profile/basic/", "/api/v4/user/profile/progress/machines/os/",
+         "/api/v4/profile/progress/machines/os/", "/api/v4/user/profile/activity/", "/api/v4/profile/activity/"]
+
+
+def probe(base):
+    """Runs only after a failure: shows which endpoints exist, and whether the token belongs to HTB_USER_ID."""
+    lines = []
+    st, body = fetch(base + WHOAMI)
+    try:
+        me = json.loads(body).get("info", {}).get("id")
+        lines.append("token belongs to user id: %s (HTB_USER_ID is %s -> %s)" % (me, UID, "match" if str(me) == UID else "DIFFERENT"))
+    except Exception:
+        lines.append("token check body not readable")
+    for path in PROBE:
+        st, body = fetch(base + path + UID)
+        keys = ""
+        if st == 200:
+            try:
+                j = json.loads(body)
+                keys = " keys=" + ",".join(list(j)[:6]) + (" profile=" + ",".join(list(j["profile"])[:8]) if isinstance(j.get("profile"), dict) else "")
+            except Exception:
+                pass
+        lines.append("%s%s: HTTP %s%s" % (base, path, st, keys))
+    return lines
+
+
 def get_activity():
     errors = []
     for base in BASES:
@@ -81,6 +109,7 @@ def get_activity():
                 errors.append("%s%s: HTTP %s - %s" % (base, path, status, HINTS.get(status, "unexpected status")))
         status, _ = fetch(base + WHOAMI)
         errors.append("%s token check (%s): HTTP %s" % (base, WHOAMI, status))
+    errors += ["--- probe ---"] + probe(BASES[0])
     fail("\n  ".join([""] + errors))
 
 
@@ -116,6 +145,7 @@ def build(acts):
 
 
 def main():
+    print("htb_activity.py v3")
     if not TOKEN or not UID.isdigit():
         fail("HTB_TOKEN and a numeric HTB_USER_ID must be set as environment variables / Actions secrets")
     acts = get_activity()

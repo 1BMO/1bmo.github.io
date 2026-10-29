@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# NOTE: VERSION 10. The Actions log must start with "htb_activity.py v10". On failure it prints a
+# NOTE: VERSION 11. The Actions log must start with "htb_activity.py v11". On failure it prints a
 # "--- probe ---" section (endpoint, HTTP status, JSON key names only - never values).
 """Pull my Hack The Box activity and keep it in htb-activity.json (shown on the Progress page).
 
@@ -180,14 +180,15 @@ def build(acts):
         av = a.get("avatarUrl") or a.get("avatar") or ""
         if k in ("user", "root"):
             m = machines.setdefault(name, {"id": a.get("id"), "av": av})
+            m.setdefault("name", name)
             if k not in m or d > m[k][0]:
                 m[k] = (d, fb)
         elif k == "challenge":
-            out["challenge:%s" % (a.get("id") or name.lower())] = {"title": "Solved " + name, "date": d, "note": "Challenge" + fbs, "url": page("challenges", name), "_img": ("c%s" % a.get("id"), av)}
+            out["challenge:%s" % (a.get("id") or name.lower())] = {"title": "Solved " + name, "date": d, "note": "Challenge" + fbs, "url": page("challenges", name), "_img": ("c%s" % a.get("id"), av, name)}
         else:
             out["%s:%s" % (k, str(a.get("id") or name).lower())] = {"title": "Completed " + name, "date": d, "note": k.capitalize() + fbs}
     for name, m in machines.items():
-        base = {"url": page("machines", name), "_img": ("m%s" % m.get("id"), m.get("av"))}
+        base = {"url": page("machines", name), "_img": ("m%s" % m.get("id"), m.get("av"), name)}
         if "root" in m:
             d, fb = m["root"]
             out["machine:" + name.lower()] = dict(base, title="Rooted " + name, date=d, note="Machine · root" + (" · first blood" if fb else ""))
@@ -273,13 +274,60 @@ def save_img(stem, src):
     return None, "download failed @ " + " | ".join(tried)
 
 
+def store(stem, ct, data):
+    if ct not in EXT:
+        return None, "type " + str(ct)
+    if len(data) > MAX_IMG:
+        return None, "too big"
+    if ct == "image/svg+xml" and any(b in data.lower() for b in BAD_SVG):
+        return None, "svg rejected"
+    os.makedirs(IMG_DIR, exist_ok=True)
+    path = os.path.join(IMG_DIR, stem + "." + EXT[ct])
+    with open(path, "wb") as f:
+        f.write(data)
+    return IMG_DIR + "/" + stem + "." + EXT[ct], "saved"
+
+
+_p2 = {"ok": False, "failed": 0, "shown": False}
+
+
+def save_img_from_profile(stem, name):
+    """Fallback for machines: ask the machine's own profile (same App Token, same API) where its image lives."""
+    if not _p2["ok"] and _p2["failed"] >= 3:
+        return None, "skipped (profile fallback gave up)"
+    st, body = fetch("%s/api/v4/machine/profile/%s" % (BASES[0], urllib.parse.quote(str(name), safe="")))
+    vals = {}
+    try:
+        info = json.loads(body).get("info", {})
+        vals = {k: v for k, v in info.items() if isinstance(v, str) and v and any(w in k.lower() for w in ("avatar", "image", "icon", "logo"))}
+    except Exception:
+        pass
+    if not _p2["shown"]:
+        _p2["shown"] = True
+        print("  profile lookup HTTP %s, image-like fields: %s" % (st, {k: v[:110] for k, v in vals.items()} or "none"))
+    for v in vals.values():
+        for c in candidates(v):
+            ct, data, err = try_get(c)
+            if not err and ct in EXT:
+                path, why = store(stem, ct, data)
+                if path:
+                    _p2["ok"] = True
+                    return path, "saved (profile)"
+    _p2["failed"] += 1
+    return None, "profile fallback failed"
+
+
 def attach_images(new):
     stats, hosts, samples = {}, set(), []
     for e in new.values():
-        stem, src = e.pop("_img", (None, None))
+        stem, src, nm = (list(e.pop("_img", (None, None, None))) + [None])[:3]
         if not stem:
             continue
         path, why = save_img(stem, src)
+        if not path and stem.startswith("m") and nm and not why.startswith("cached"):
+            p2, why2 = save_img_from_profile(stem, nm)
+            if p2:
+                path, why = p2, why2
         key = why.split(" @ ")[0].split(":")[0]
         stats[key] = stats.get(key, 0) + 1
         if why.startswith("download failed") and len(samples) < 2:
@@ -296,7 +344,7 @@ def attach_images(new):
 
 
 def main():
-    print("htb_activity.py v10 | commit %s | file %s" % (os.environ.get("GITHUB_SHA", "?")[:7], os.path.abspath(__file__)))
+    print("htb_activity.py v11 | commit %s | file %s" % (os.environ.get("GITHUB_SHA", "?")[:7], os.path.abspath(__file__)))
     if not TOKEN or not UID.isdigit():
         fail("HTB_TOKEN and a numeric HTB_USER_ID must be set as environment variables / Actions secrets")
     acts = get_activity()

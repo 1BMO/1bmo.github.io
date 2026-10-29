@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# NOTE: VERSION 8. The Actions log must start with "htb_activity.py v8". On failure it prints a
+# NOTE: VERSION 9. The Actions log must start with "htb_activity.py v9". On failure it prints a
 # "--- probe ---" section (endpoint, HTTP status, JSON key names only - never values).
 """Pull my Hack The Box activity and keep it in htb-activity.json (shown on the Progress page).
 
@@ -199,6 +199,7 @@ def build(acts):
 
 EXT = {"image/png": "png", "image/jpeg": "jpg", "image/webp": "webp", "image/gif": "gif"}
 MAX_IMG = 400 * 1024
+IMG_HOSTS = {"htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com"}  # HTB public asset bucket (seen in the Actions log)
 
 
 def save_img(stem, src):
@@ -208,7 +209,7 @@ def save_img(stem, src):
     src = urllib.parse.urljoin(BASES[0] + "/", str(src))
     u = urllib.parse.urlparse(src)
     host = (u.hostname or "").lower()
-    if u.scheme != "https" or not (host == "hackthebox.com" or host.endswith(".hackthebox.com")):
+    if u.scheme != "https" or not (host == "hackthebox.com" or host.endswith(".hackthebox.com") or host in IMG_HOSTS):
         return None, "host not allowed: " + host
     for e in EXT.values():  # already have it
         if os.path.exists(os.path.join(IMG_DIR, stem + "." + e)):
@@ -218,8 +219,10 @@ def save_img(stem, src):
         with urllib.request.urlopen(req, timeout=20) as r:
             ct = (r.headers.get("Content-Type") or "").split(";")[0].strip().lower()
             data = r.read(MAX_IMG + 1)
+    except urllib.error.HTTPError as e:
+        return None, "download failed: HTTP %s @ %s%s" % (e.code, host, u.path[:60])
     except Exception as e:
-        return None, "download failed: %s" % str(e)[:60]
+        return None, "download failed: %s @ %s%s" % (str(e)[:50], host, u.path[:60])
     if ct not in EXT:
         return None, "unsupported type " + ct
     if len(data) > MAX_IMG:
@@ -232,22 +235,27 @@ def save_img(stem, src):
 
 
 def attach_images(new):
-    stats, hosts = {}, set()
+    stats, hosts, samples = {}, set(), []
     for e in new.values():
         stem, src = e.pop("_img", (None, None))
         if not stem:
             continue
         path, why = save_img(stem, src)
-        stats[why.split(":")[0]] = stats.get(why.split(":")[0], 0) + 1
+        key = why.split(" @ ")[0] if why.startswith("download failed") else why.split(":")[0]
+        stats[key] = stats.get(key, 0) + 1
+        if why.startswith("download failed") and len(samples) < 3 and why not in samples:
+            samples.append(why)
         if path:
             e["img"] = path
         elif why.startswith("host not allowed"):
             hosts.add(why.split(": ")[1])
     print("images: %s%s" % (stats, (" | blocked hosts: " + ",".join(sorted(hosts))) if hosts else ""))
+    for x in samples:
+        print("  sample failure: " + x)
 
 
 def main():
-    print("htb_activity.py v8 | commit %s | file %s" % (os.environ.get("GITHUB_SHA", "?")[:7], os.path.abspath(__file__)))
+    print("htb_activity.py v9 | commit %s | file %s" % (os.environ.get("GITHUB_SHA", "?")[:7], os.path.abspath(__file__)))
     if not TOKEN or not UID.isdigit():
         fail("HTB_TOKEN and a numeric HTB_USER_ID must be set as environment variables / Actions secrets")
     acts = get_activity()

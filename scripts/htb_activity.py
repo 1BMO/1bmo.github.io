@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# NOTE: VERSION 12. The Actions log must start with "htb_activity.py v12". On failure it prints a
+# NOTE: VERSION 13. The Actions log must start with "htb_activity.py v13". On failure it prints a
 # "--- probe ---" section (endpoint, HTTP status, JSON key names only - never values).
 """Pull my Hack The Box activity and keep it in htb-activity.json (shown on the Progress page).
 
@@ -199,7 +199,7 @@ def build(acts):
 
 
 EXT = {"image/png": "png", "image/jpeg": "jpg", "image/webp": "webp", "image/gif": "gif", "image/svg+xml": "svg"}
-MAX_IMG = 400 * 1024
+MAX_IMG = 2 * 1024 * 1024
 S3 = "htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com"
 CDN = "cdn.services-k8s.prod.aws.htb.systems"  # HTB image CDN (returned by /api/v4/machine/profile)
 IMG_HOSTS = {S3, CDN, "app.hackthebox.com", "labs.hackthebox.com"}  # HTB hosts only
@@ -345,7 +345,7 @@ def attach_images(new):
 
 
 def main():
-    print("htb_activity.py v12 | commit %s | file %s" % (os.environ.get("GITHUB_SHA", "?")[:7], os.path.abspath(__file__)))
+    print("htb_activity.py v13 | commit %s | file %s" % (os.environ.get("GITHUB_SHA", "?")[:7], os.path.abspath(__file__)))
     if not TOKEN or not UID.isdigit():
         fail("HTB_TOKEN and a numeric HTB_USER_ID must be set as environment variables / Actions secrets")
     acts = get_activity()

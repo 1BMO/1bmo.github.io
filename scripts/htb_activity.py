@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# NOTE: VERSION 7. The Actions log must start with "htb_activity.py v7". On failure it prints a
+# NOTE: VERSION 8. The Actions log must start with "htb_activity.py v8". On failure it prints a
 # "--- probe ---" section (endpoint, HTTP status, JSON key names only - never values).
 """Pull my Hack The Box activity and keep it in htb-activity.json (shown on the Progress page).
 
@@ -12,6 +12,7 @@ import json
 import os
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 
 OUT = os.environ.get("HTB_OUT", "htb-activity.json")
@@ -160,6 +161,14 @@ def kind(t):
     return t or "other"
 
 
+APP = "https://app.hackthebox.com"
+IMG_DIR = os.environ.get("HTB_IMG_DIR", "htb-img")
+
+
+def page(kind, name):
+    return "%s/%s/%s" % (APP, kind, urllib.parse.quote(str(name), safe=""))
+
+
 def build(acts):
     machines, out = {}, {}
     for a in acts:
@@ -168,26 +177,77 @@ def build(acts):
             continue
         k, d, fb = kind(a.get("type")), day(a.get("ownDate")), bool(a.get("blood"))
         fbs = " · first blood" if fb else ""
+        av = a.get("avatarUrl") or a.get("avatar") or ""
         if k in ("user", "root"):
-            m = machines.setdefault(name, {})
+            m = machines.setdefault(name, {"id": a.get("id"), "av": av})
             if k not in m or d > m[k][0]:
                 m[k] = (d, fb)
         elif k == "challenge":
-            out["challenge:%s" % (a.get("id") or name.lower())] = {"title": "Solved " + name, "date": d, "note": "Challenge" + fbs}
+            out["challenge:%s" % (a.get("id") or name.lower())] = {"title": "Solved " + name, "date": d, "note": "Challenge" + fbs, "url": page("challenges", name), "_img": ("c%s" % a.get("id"), av)}
         else:
             out["%s:%s" % (k, str(a.get("id") or name).lower())] = {"title": "Completed " + name, "date": d, "note": k.capitalize() + fbs}
     for name, m in machines.items():
+        base = {"url": page("machines", name), "_img": ("m%s" % m.get("id"), m.get("av"))}
         if "root" in m:
             d, fb = m["root"]
-            out["machine:" + name.lower()] = {"title": "Rooted " + name, "date": d, "note": "Machine · root" + (" · first blood" if fb else "")}
+            out["machine:" + name.lower()] = dict(base, title="Rooted " + name, date=d, note="Machine · root" + (" · first blood" if fb else ""))
         else:
             d, fb = m["user"]
-            out["machine:" + name.lower()] = {"title": "Got user on " + name, "date": d, "note": "Machine · user flag" + (" · first blood" if fb else "")}
+            out["machine:" + name.lower()] = dict(base, title="Got user on " + name, date=d, note="Machine · user flag" + (" · first blood" if fb else ""))
     return {k: dict(v, id=k, tag=TAG) for k, v in out.items()}
 
 
+EXT = {"image/png": "png", "image/jpeg": "jpg", "image/webp": "webp", "image/gif": "gif"}
+MAX_IMG = 400 * 1024
+
+
+def save_img(stem, src):
+    """Download one HTB image into IMG_DIR (no token sent, HTB hosts only, size/type checked). Returns (path or None, reason)."""
+    if not src or not stem.strip("mc") or "None" in stem:
+        return None, "no image url"
+    src = urllib.parse.urljoin(BASES[0] + "/", str(src))
+    u = urllib.parse.urlparse(src)
+    host = (u.hostname or "").lower()
+    if u.scheme != "https" or not (host == "hackthebox.com" or host.endswith(".hackthebox.com")):
+        return None, "host not allowed: " + host
+    for e in EXT.values():  # already have it
+        if os.path.exists(os.path.join(IMG_DIR, stem + "." + e)):
+            return IMG_DIR + "/" + stem + "." + e, "cached"
+    try:
+        req = urllib.request.Request(src, headers={"User-Agent": "Mozilla/5.0 (compatible; personal-portfolio-sync)", "Accept": "image/*"})
+        with urllib.request.urlopen(req, timeout=20) as r:
+            ct = (r.headers.get("Content-Type") or "").split(";")[0].strip().lower()
+            data = r.read(MAX_IMG + 1)
+    except Exception as e:
+        return None, "download failed: %s" % str(e)[:60]
+    if ct not in EXT:
+        return None, "unsupported type " + ct
+    if len(data) > MAX_IMG:
+        return None, "too big"
+    os.makedirs(IMG_DIR, exist_ok=True)
+    path = os.path.join(IMG_DIR, stem + "." + EXT[ct])
+    with open(path, "wb") as f:
+        f.write(data)
+    return IMG_DIR + "/" + stem + "." + EXT[ct], "saved"
+
+
+def attach_images(new):
+    stats, hosts = {}, set()
+    for e in new.values():
+        stem, src = e.pop("_img", (None, None))
+        if not stem:
+            continue
+        path, why = save_img(stem, src)
+        stats[why.split(":")[0]] = stats.get(why.split(":")[0], 0) + 1
+        if path:
+            e["img"] = path
+        elif why.startswith("host not allowed"):
+            hosts.add(why.split(": ")[1])
+    print("images: %s%s" % (stats, (" | blocked hosts: " + ",".join(sorted(hosts))) if hosts else ""))
+
+
 def main():
-    print("htb_activity.py v7 | commit %s | file %s" % (os.environ.get("GITHUB_SHA", "?")[:7], os.path.abspath(__file__)))
+    print("htb_activity.py v8 | commit %s | file %s" % (os.environ.get("GITHUB_SHA", "?")[:7], os.path.abspath(__file__)))
     if not TOKEN or not UID.isdigit():
         fail("HTB_TOKEN and a numeric HTB_USER_ID must be set as environment variables / Actions secrets")
     acts = get_activity()
@@ -196,6 +256,7 @@ def main():
         types[str(a.get("type"))] = types.get(str(a.get("type")), 0) + 1
     print("item types seen: %s" % types)
     new = build(acts)
+    attach_images(new)
     try:
         with open(OUT, encoding="utf-8") as f:
             old = {e["id"]: e for e in json.load(f) if isinstance(e, dict) and e.get("id")}

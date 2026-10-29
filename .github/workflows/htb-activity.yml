@@ -26,13 +26,14 @@ jobs:
 
       - name: Commit if changed
         run: |
-          if [ -z "$(git status --porcelain htb-activity.json)" ]; then
+          if [ -z "$(git status --porcelain htb-activity.json htb-img)" ]; then
             echo "No changes"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add htb-activity.json
+          [ -d htb-img ] && git add htb-img || true
           git commit -m "Update HTB activity"
           git pull --rebase
           git push

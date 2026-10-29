@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# NOTE: VERSION 3 (diagnostic). If the Actions log starts with "htb_activity.py v3" and, on failure, shows
+# NOTE: VERSION 5 (diagnostic). If the Actions log starts with "htb_activity.py v4" and, on failure, shows
 # a "--- probe ---" section, this is the right file.
 """Pull my Hack The Box activity and keep it in htb-activity.json (shown on the Progress page).
 
@@ -69,8 +69,10 @@ def pick(body):
     raise ValueError("no activity list")
 
 
-PROBE = ["/api/v4/user/profile/basic/", "/api/v4/profile/", "/api/v4/profile/basic/", "/api/v4/user/profile/progress/machines/os/",
-         "/api/v4/profile/progress/machines/os/", "/api/v4/user/profile/activity/", "/api/v4/profile/activity/"]
+PROBE = ["/api/v4/profile/content/machines/", "/api/v4/profile/content/challenges/", "/api/v4/profile/graph/1M/", "/api/v4/profile/graph/1Y/",
+         "/api/v4/profile/progress/challenges/", "/api/v4/profile/progress/machines/os/", "/api/v4/profile/progress/prolab/", "/api/v4/profile/progress/fortress/",
+         "/api/v4/profile/badges/", "/api/v4/profile/bloods/", "/api/v4/profile/owns/", "/api/v4/profile/machines/", "/api/v4/profile/challenges/",
+         "/api/v4/profile/timeline/", "/api/v4/profile/overview/", "/api/v4/user/profile/progress/challenges/", "/api/v4/user/profile/graph/1M/"]
 
 
 def probe(base):
@@ -88,7 +90,12 @@ def probe(base):
         if st == 200:
             try:
                 j = json.loads(body)
-                keys = " keys=" + ",".join(list(j)[:6]) + (" profile=" + ",".join(list(j["profile"])[:8]) if isinstance(j.get("profile"), dict) else "")
+                keys = " keys=" + ",".join(list(j)[:6])
+                inner = j.get("profile") if isinstance(j.get("profile"), dict) else j.get("data")
+                if isinstance(inner, dict):
+                    keys += " inner=" + ",".join(list(inner)[:10])
+                elif isinstance(inner, list):
+                    keys += " list=%d" % len(inner) + ((" item=" + ",".join(list(inner[0])[:10])) if inner and isinstance(inner[0], dict) else "")
             except Exception:
                 pass
         lines.append("%s%s: HTTP %s%s" % (base, path, st, keys))
@@ -145,7 +152,7 @@ def build(acts):
 
 
 def main():
-    print("htb_activity.py v3")
+    print("htb_activity.py v5 | commit %s | file %s" % (os.environ.get("GITHUB_SHA", "?")[:7], os.path.abspath(__file__)))
     if not TOKEN or not UID.isdigit():
         fail("HTB_TOKEN and a numeric HTB_USER_ID must be set as environment variables / Actions secrets")
     acts = get_activity()

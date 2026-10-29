@@ -428,13 +428,17 @@ function normProg(p){if(Array.isArray(p))return p;var a=[];if(p&&typeof p==="obj
 var PROG=[],PCATS=[],ptag="All";
 // feed entries: {title, tag, date, note, url}. Old {modules, boxes} data is converted on the fly.
 function normProgress(p){if(Array.isArray(p))return p;var a=[];if(p&&typeof p==="object"){(p.modules||[]).forEach(function(m){a.push({title:m.name,tag:m.path||"Academy",date:m.date})});(p.boxes||[]).forEach(function(x){a.push({title:x.name,tag:"Lab",date:x.date,note:[x.os,x.diff].filter(Boolean).join(" · "),url:x.writeup})})}return a}
+var AUTO=[];
+// AUTO = entries written by the HTB sync workflow (htb-activity.json); shown together with the manual ones, newest first
+function allProg(){var m=PROG.concat(AUTO);if(!AUTO.length)return m;return m.map(function(x,i){return[x,i]}).sort(function(a,b){var d=String((b[0]&&b[0].date)||"").localeCompare(String((a[0]&&a[0].date)||""));return d||a[1]-b[1]}).map(function(p){return p[0]})}
 function renderProgress(){
  var c=document.getElementById("pchips"),l=document.getElementById("plist");if(!l)return;
- var tags=[];PROG.forEach(function(x){if(!x||!String(x.title||"").trim())return;var t=String(x.tag||"").trim();if(t&&tags.indexOf(t)<0)tags.push(t)});
+ var ALLP=allProg();
+ var tags=[];ALLP.forEach(function(x){if(!x||!String(x.title||"").trim())return;var t=String(x.tag||"").trim();if(t&&tags.indexOf(t)<0)tags.push(t)});
  tags.sort(function(a,b){var i=PCATS.indexOf(a),j=PCATS.indexOf(b);return (i<0?999:i)-(j<0?999:j)});
  if(ptag!=="All"&&tags.indexOf(ptag)<0)ptag="All";
  c.innerHTML="";if(tags.length>1){["All"].concat(tags).forEach(function(n){var b=document.createElement("button");b.textContent=n;if(n===ptag)b.className="on";b.onclick=function(){ptag=n;renderProgress()};c.appendChild(b)})}
- var items=PROG.filter(function(x){return x&&String(x.title||"").trim()&&(ptag==="All"||String(x.tag||"").trim()===ptag)});
+ var items=ALLP.filter(function(x){return x&&String(x.title||"").trim()&&(ptag==="All"||String(x.tag||"").trim()===ptag)});
  l.innerHTML="";if(!items.length){l.appendChild(mk("div","empty","Nothing posted yet."));return}
  items.forEach(function(x){var r=mk("div","pitem");r.appendChild(mk("div","pdate",x.date||""));var b=mk("div","pbody");b.appendChild(mk("b",null,x.title));
   if(x.tag){var g=mk("span","ptags");g.appendChild(mk("span","ptag",x.tag));b.appendChild(g)}
@@ -460,6 +464,7 @@ function applyC(c){
  if(c.cats&&c.cats.length){CATS=["All"].concat(c.cats);if(CATS.indexOf(cat)<0)cat="All";renderW()}
  if(c.footer!=null)document.querySelector("footer").textContent=c.footer;
  var st=null;try{st=localStorage.getItem("t")}catch(e){}if(!st&&(c.theme==="red"||c.theme==="blue"))setT(c.theme)}
+fetch("htb-activity.json?t="+Date.now()).then(function(r){return r.ok?r.json():[]}).then(function(d){if(Array.isArray(d)){AUTO=d.filter(function(x){return x&&typeof x==="object"&&x.title});renderProgress()}}).catch(function(){});
 fetch("content.json?t="+Date.now()).then(function(r){return r.ok?r.json():null}).then(function(c){if(c)applyC(c)}).catch(function(){});
 </script>
 </body>

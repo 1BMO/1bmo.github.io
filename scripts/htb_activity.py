@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# NOTE: VERSION 9. The Actions log must start with "htb_activity.py v9". On failure it prints a
+# NOTE: VERSION 10. The Actions log must start with "htb_activity.py v10". On failure it prints a
 # "--- probe ---" section (endpoint, HTTP status, JSON key names only - never values).
 """Pull my Hack The Box activity and keep it in htb-activity.json (shown on the Progress page).
 
@@ -197,41 +197,80 @@ def build(acts):
     return {k: dict(v, id=k, tag=TAG) for k, v in out.items()}
 
 
-EXT = {"image/png": "png", "image/jpeg": "jpg", "image/webp": "webp", "image/gif": "gif"}
+EXT = {"image/png": "png", "image/jpeg": "jpg", "image/webp": "webp", "image/gif": "gif", "image/svg+xml": "svg"}
 MAX_IMG = 400 * 1024
-IMG_HOSTS = {"htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com"}  # HTB public asset bucket (seen in the Actions log)
+S3 = "htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com"
+IMG_HOSTS = {S3, "app.hackthebox.com", "labs.hackthebox.com"}  # HTB hosts only
+BAD_SVG = (b"<script", b"onload", b"javascript:", b"<foreignobject", b"onerror")
+_state = {"pattern": None, "failed": 0}  # which candidate pattern worked; how many machines failed with none
+
+
+def allowed(u):
+    host = (u.hostname or "").lower()
+    return u.scheme == "https" and (host == "hackthebox.com" or host.endswith(".hackthebox.com") or host in IMG_HOSTS)
+
+
+def candidates(src):
+    """A full URL is used as is. A relative path is tried on several HTB hosts (the real image host is not documented)."""
+    src = str(src)
+    if src.startswith("http"):
+        return [src]
+    p = "/" + src.lstrip("/")
+    q = p[len("/content"):] if p.startswith("/content/") else p
+    return ["https://labs.hackthebox.com" + p, "https://%s%s" % (S3, p), "https://%s%s" % (S3, q),
+            "https://app.hackthebox.com" + p, "https://%s%s.png" % (S3, p), "https://%s%s.png" % (S3, q)]
+
+
+def try_get(url):
+    u = urllib.parse.urlparse(url)
+    if not allowed(u):
+        return None, None, "host not allowed: " + (u.hostname or "")
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (compatible; personal-portfolio-sync)", "Accept": "image/*"})
+        with urllib.request.urlopen(req, timeout=20) as r:
+            ct = (r.headers.get("Content-Type") or "").split(";")[0].strip().lower()
+            return ct, r.read(MAX_IMG + 1), None
+    except urllib.error.HTTPError as e:
+        return None, None, "HTTP %s" % e.code
+    except Exception as e:
+        return None, None, str(e)[:40]
 
 
 def save_img(stem, src):
-    """Download one HTB image into IMG_DIR (no token sent, HTB hosts only, size/type checked). Returns (path or None, reason)."""
-    if not src or not stem.strip("mc") or "None" in stem:
+    """Download one HTB image into IMG_DIR (no token sent). Returns (path or None, reason)."""
+    if not src or "None" in stem:
         return None, "no image url"
-    src = urllib.parse.urljoin(BASES[0] + "/", str(src))
-    u = urllib.parse.urlparse(src)
-    host = (u.hostname or "").lower()
-    if u.scheme != "https" or not (host == "hackthebox.com" or host.endswith(".hackthebox.com") or host in IMG_HOSTS):
-        return None, "host not allowed: " + host
-    for e in EXT.values():  # already have it
+    for e in set(EXT.values()):  # already have it
         if os.path.exists(os.path.join(IMG_DIR, stem + "." + e)):
             return IMG_DIR + "/" + stem + "." + e, "cached"
-    try:
-        req = urllib.request.Request(src, headers={"User-Agent": "Mozilla/5.0 (compatible; personal-portfolio-sync)", "Accept": "image/*"})
-        with urllib.request.urlopen(req, timeout=20) as r:
-            ct = (r.headers.get("Content-Type") or "").split(";")[0].strip().lower()
-            data = r.read(MAX_IMG + 1)
-    except urllib.error.HTTPError as e:
-        return None, "download failed: HTTP %s @ %s%s" % (e.code, host, u.path[:60])
-    except Exception as e:
-        return None, "download failed: %s @ %s%s" % (str(e)[:50], host, u.path[:60])
-    if ct not in EXT:
-        return None, "unsupported type " + ct
-    if len(data) > MAX_IMG:
-        return None, "too big"
-    os.makedirs(IMG_DIR, exist_ok=True)
-    path = os.path.join(IMG_DIR, stem + "." + EXT[ct])
-    with open(path, "wb") as f:
-        f.write(data)
-    return IMG_DIR + "/" + stem + "." + EXT[ct], "saved"
+    cands = candidates(src)
+    if len(cands) > 1 and _state["pattern"] is None and _state["failed"] >= 3:
+        return None, "skipped: no candidate worked for the first 3"
+    order = [_state["pattern"]] if _state["pattern"] is not None else range(len(cands))
+    tried = []
+    for i in order:
+        ct, data, err = try_get(cands[i])
+        if err:
+            u = urllib.parse.urlparse(cands[i])
+            tried.append("%s%s -> %s" % (u.hostname, u.path[:70], err))
+            continue
+        if ct not in EXT:
+            tried.append("%s -> type %s" % (urllib.parse.urlparse(cands[i]).hostname, ct))
+            continue
+        if len(data) > MAX_IMG:
+            return None, "too big"
+        if ct == "image/svg+xml" and any(b in data.lower() for b in BAD_SVG):
+            return None, "svg rejected (active content)"
+        if len(cands) > 1:
+            _state["pattern"] = i
+        os.makedirs(IMG_DIR, exist_ok=True)
+        path = os.path.join(IMG_DIR, stem + "." + EXT[ct])
+        with open(path, "wb") as f:
+            f.write(data)
+        return IMG_DIR + "/" + stem + "." + EXT[ct], "saved"
+    if len(cands) > 1 and _state["pattern"] is None:
+        _state["failed"] += 1
+    return None, "download failed @ " + " | ".join(tried)
 
 
 def attach_images(new):
@@ -241,21 +280,23 @@ def attach_images(new):
         if not stem:
             continue
         path, why = save_img(stem, src)
-        key = why.split(" @ ")[0] if why.startswith("download failed") else why.split(":")[0]
+        key = why.split(" @ ")[0].split(":")[0]
         stats[key] = stats.get(key, 0) + 1
-        if why.startswith("download failed") and len(samples) < 3 and why not in samples:
+        if why.startswith("download failed") and len(samples) < 2:
             samples.append(why)
         if path:
             e["img"] = path
         elif why.startswith("host not allowed"):
             hosts.add(why.split(": ")[1])
+    if _state["pattern"] is not None:
+        print("images: working candidate pattern #%d" % _state["pattern"])
     print("images: %s%s" % (stats, (" | blocked hosts: " + ",".join(sorted(hosts))) if hosts else ""))
     for x in samples:
         print("  sample failure: " + x)
 
 
 def main():
-    print("htb_activity.py v9 | commit %s | file %s" % (os.environ.get("GITHUB_SHA", "?")[:7], os.path.abspath(__file__)))
+    print("htb_activity.py v10 | commit %s | file %s" % (os.environ.get("GITHUB_SHA", "?")[:7], os.path.abspath(__file__)))
     if not TOKEN or not UID.isdigit():
         fail("HTB_TOKEN and a numeric HTB_USER_ID must be set as environment variables / Actions secrets")
     acts = get_activity()

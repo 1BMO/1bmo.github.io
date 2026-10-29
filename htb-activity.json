@@ -5,7 +5,8 @@
     "date": "2026-09-30",
     "note": "Machine · root",
     "id": "machine:layover",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m984.png"
   },
   {
     "title": "Solved Criticalops",
@@ -157,7 +158,8 @@
     "date": "2026-07-30",
     "note": "Machine · root",
     "id": "machine:darkzeroreturns",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m930.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Bedside",
@@ -237,7 +239,8 @@
     "date": "2026-07-07",
     "note": "Machine · root",
     "id": "machine:makesense",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m918.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Enigma",
@@ -245,7 +248,8 @@
     "date": "2026-07-04",
     "note": "Machine · root",
     "id": "machine:enigma",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m915.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Nimbus",
@@ -280,7 +284,8 @@
     "date": "2026-06-19",
     "note": "Machine · root",
     "id": "machine:checkpoint",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m909.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Connected",
@@ -297,7 +302,8 @@
     "date": "2026-06-06",
     "note": "Machine · root",
     "id": "machine:devhub",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m903.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Reactor",

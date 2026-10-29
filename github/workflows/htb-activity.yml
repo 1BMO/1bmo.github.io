@@ -1,0 +1,38 @@
+name: HTB activity
+
+on:
+  schedule:
+    - cron: "23 */3 * * *"   # every 3 hours
+  workflow_dispatch:          # lets you run it by hand from the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: htb-activity
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch HTB activity
+        env:
+          HTB_TOKEN: ${{ secrets.HTB_TOKEN }}
+          HTB_USER_ID: ${{ secrets.HTB_USER_ID }}
+        run: python3 scripts/htb_activity.py
+
+      - name: Commit if changed
+        run: |
+          if [ -z "$(git status --porcelain htb-activity.json)" ]; then
+            echo "No changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add htb-activity.json
+          git commit -m "Update HTB activity"
+          git pull --rebase
+          git push

@@ -1,0 +1,548 @@
+[
+  {
+    "title": "Rooted Layover",
+    "date": "2026-09-30",
+    "note": "Machine · root",
+    "id": "machine:layover",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Solved Criticalops",
+    "date": "2026-08-30",
+    "note": "Challenge",
+    "id": "challenge:965",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted SmartHire",
+    "date": "2026-08-21",
+    "note": "Machine · root",
+    "id": "machine:smarthire",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted DanglingTree",
+    "date": "2026-08-11",
+    "note": "Machine · root",
+    "id": "machine:danglingtree",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Snoopy",
+    "date": "2026-08-09",
+    "note": "Machine · root",
+    "id": "machine:snoopy",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Redelegate",
+    "date": "2026-08-07",
+    "note": "Machine · root",
+    "id": "machine:redelegate",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Craft",
+    "date": "2026-08-07",
+    "note": "Machine · root",
+    "id": "machine:craft",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Authority",
+    "date": "2026-08-06",
+    "note": "Machine · root",
+    "id": "machine:authority",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Voleur",
+    "date": "2026-08-05",
+    "note": "Machine · root",
+    "id": "machine:voleur",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted StreamIO",
+    "date": "2026-08-05",
+    "note": "Machine · root",
+    "id": "machine:streamio",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted VulnCicada",
+    "date": "2026-08-03",
+    "note": "Machine · root",
+    "id": "machine:vulncicada",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Media",
+    "date": "2026-08-03",
+    "note": "Machine · root",
+    "id": "machine:media",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted TombWatcher",
+    "date": "2026-08-02",
+    "note": "Machine · root",
+    "id": "machine:tombwatcher",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Cohort",
+    "date": "2026-08-02",
+    "note": "Machine · root",
+    "id": "machine:cohort",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Pov",
+    "date": "2026-08-01",
+    "note": "Machine · root",
+    "id": "machine:pov",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Postman",
+    "date": "2026-08-01",
+    "note": "Machine · root",
+    "id": "machine:postman",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Jeeves",
+    "date": "2026-08-01",
+    "note": "Machine · root",
+    "id": "machine:jeeves",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted DarkZeroReturns",
+    "date": "2026-07-30",
+    "note": "Machine · root",
+    "id": "machine:darkzeroreturns",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Bedside",
+    "date": "2026-07-22",
+    "note": "Machine · root",
+    "id": "machine:bedside",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Got user on Editorial",
+    "date": "2026-07-16",
+    "note": "Machine · user flag",
+    "id": "machine:editorial",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Soccer",
+    "date": "2026-07-13",
+    "note": "Machine · root",
+    "id": "machine:soccer",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Active",
+    "date": "2026-07-13",
+    "note": "Machine · root",
+    "id": "machine:active",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Union",
+    "date": "2026-07-12",
+    "note": "Machine · root",
+    "id": "machine:union",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Paperwork",
+    "date": "2026-07-11",
+    "note": "Machine · root",
+    "id": "machine:paperwork",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Fluffy",
+    "date": "2026-07-10",
+    "note": "Machine · root",
+    "id": "machine:fluffy",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Forest",
+    "date": "2026-07-08",
+    "note": "Machine · root",
+    "id": "machine:forest",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted MakeSense",
+    "date": "2026-07-07",
+    "note": "Machine · root",
+    "id": "machine:makesense",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Enigma",
+    "date": "2026-07-04",
+    "note": "Machine · root",
+    "id": "machine:enigma",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Nimbus",
+    "date": "2026-06-23",
+    "note": "Machine · root",
+    "id": "machine:nimbus",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Got user on Nexus",
+    "date": "2026-06-23",
+    "note": "Machine · user flag",
+    "id": "machine:nexus",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted TwoMillion",
+    "date": "2026-06-22",
+    "note": "Machine · root",
+    "id": "machine:twomillion",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Checkpoint",
+    "date": "2026-06-19",
+    "note": "Machine · root",
+    "id": "machine:checkpoint",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Connected",
+    "date": "2026-06-12",
+    "note": "Machine · root",
+    "id": "machine:connected",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted DevHub",
+    "date": "2026-06-06",
+    "note": "Machine · root",
+    "id": "machine:devhub",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Reactor",
+    "date": "2026-05-28",
+    "note": "Machine · root",
+    "id": "machine:reactor",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Trick",
+    "date": "2026-05-12",
+    "note": "Machine · root",
+    "id": "machine:trick",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Helix",
+    "date": "2026-05-11",
+    "note": "Machine · root",
+    "id": "machine:helix",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Bruno",
+    "date": "2026-04-27",
+    "note": "Machine · root",
+    "id": "machine:bruno",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Breach",
+    "date": "2026-04-27",
+    "note": "Machine · root",
+    "id": "machine:breach",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Administrator",
+    "date": "2026-04-27",
+    "note": "Machine · root",
+    "id": "machine:administrator",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Logging",
+    "date": "2026-04-22",
+    "note": "Machine · root",
+    "id": "machine:logging",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Silentium",
+    "date": "2026-04-12",
+    "note": "Machine · root",
+    "id": "machine:silentium",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Garfield",
+    "date": "2026-04-05",
+    "note": "Machine · root",
+    "id": "machine:garfield",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted DevArea",
+    "date": "2026-04-02",
+    "note": "Machine · root",
+    "id": "machine:devarea",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Kobold",
+    "date": "2026-03-26",
+    "note": "Machine · root",
+    "id": "machine:kobold",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted VariaType",
+    "date": "2026-03-16",
+    "note": "Machine · root",
+    "id": "machine:variatype",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted CCTV",
+    "date": "2026-03-07",
+    "note": "Machine · root",
+    "id": "machine:cctv",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Pirate",
+    "date": "2026-03-06",
+    "note": "Machine · root",
+    "id": "machine:pirate",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Interpreter",
+    "date": "2026-02-25",
+    "note": "Machine · root",
+    "id": "machine:interpreter",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted WingData",
+    "date": "2026-02-14",
+    "note": "Machine · root",
+    "id": "machine:wingdata",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Pterodactyl",
+    "date": "2026-02-07",
+    "note": "Machine · root",
+    "id": "machine:pterodactyl",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Facts",
+    "date": "2026-01-31",
+    "note": "Machine · root",
+    "id": "machine:facts",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Overwatch",
+    "date": "2026-01-27",
+    "note": "Machine · root",
+    "id": "machine:overwatch",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Giveback",
+    "date": "2026-01-19",
+    "note": "Machine · root",
+    "id": "machine:giveback",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Browsed",
+    "date": "2026-01-17",
+    "note": "Machine · root",
+    "id": "machine:browsed",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Eloquia",
+    "date": "2025-12-16",
+    "note": "Machine · root",
+    "id": "machine:eloquia",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted MonitorsFour",
+    "date": "2025-12-09",
+    "note": "Machine · root",
+    "id": "machine:monitorsfour",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Editor",
+    "date": "2025-12-03",
+    "note": "Machine · root",
+    "id": "machine:editor",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Gavel",
+    "date": "2025-12-02",
+    "note": "Machine · root",
+    "id": "machine:gavel",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Eighteen",
+    "date": "2025-11-22",
+    "note": "Machine · root",
+    "id": "machine:eighteen",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Conversor",
+    "date": "2025-11-12",
+    "note": "Machine · root",
+    "id": "machine:conversor",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Solved The Suspicious Reviewer",
+    "date": "2025-10-16",
+    "note": "Challenge",
+    "id": "challenge:972",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Solved The Suspicious Domain",
+    "date": "2025-10-16",
+    "note": "Challenge",
+    "id": "challenge:973",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Solved Follow The Money",
+    "date": "2025-10-16",
+    "note": "Challenge",
+    "id": "challenge:976",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Solved Evaluative",
+    "date": "2025-10-16",
+    "note": "Challenge",
+    "id": "challenge:868",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Solved The Puppet Master",
+    "date": "2025-10-15",
+    "note": "Challenge",
+    "id": "challenge:977",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Solved Social Media Investigation Hub",
+    "date": "2025-10-15",
+    "note": "Challenge",
+    "id": "challenge:975",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Signed",
+    "date": "2025-10-14",
+    "note": "Machine · root",
+    "id": "machine:signed",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Solved Flag Command",
+    "date": "2025-10-09",
+    "note": "Challenge",
+    "id": "challenge:646",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Soulmate",
+    "date": "2025-10-05",
+    "note": "Machine · root",
+    "id": "machine:soulmate",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted DarkZero",
+    "date": "2025-10-05",
+    "note": "Machine · root",
+    "id": "machine:darkzero",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Imagery",
+    "date": "2025-09-27",
+    "note": "Machine · root",
+    "id": "machine:imagery",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted CodePartTwo",
+    "date": "2025-09-27",
+    "note": "Machine · root",
+    "id": "machine:codeparttwo",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Expressway",
+    "date": "2025-09-20",
+    "note": "Machine · root",
+    "id": "machine:expressway",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Sau",
+    "date": "2025-07-09",
+    "note": "Machine · root",
+    "id": "machine:sau",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Nibbles",
+    "date": "2025-07-04",
+    "note": "Machine · root",
+    "id": "machine:nibbles",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Jerry",
+    "date": "2025-07-04",
+    "note": "Machine · root",
+    "id": "machine:jerry",
+    "tag": "HTB Labs"
+  },
+  {
+    "title": "Rooted Cap",
+    "date": "2025-07-03",
+    "note": "Machine · root",
+    "id": "machine:cap",
+    "tag": "HTB Labs"
+  }
+]

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-# NOTE: VERSION 5 (diagnostic). If the Actions log starts with "htb_activity.py v4" and, on failure, shows
-# a "--- probe ---" section, this is the right file.
+# NOTE: VERSION 6 (diagnostic). The Actions log must start with "htb_activity.py v6". On failure it prints a
+# "--- probe ---" section (endpoint, HTTP status, JSON key names only - never values).
 """Pull my Hack The Box activity and keep it in htb-activity.json (shown on the Progress page).
 
 Secrets come from the environment only (GitHub Actions secrets), never from files:
@@ -69,14 +69,30 @@ def pick(body):
     raise ValueError("no activity list")
 
 
-PROBE = ["/api/v4/profile/content/machines/", "/api/v4/profile/content/challenges/", "/api/v4/profile/graph/1M/", "/api/v4/profile/graph/1Y/",
-         "/api/v4/profile/progress/challenges/", "/api/v4/profile/progress/machines/os/", "/api/v4/profile/progress/prolab/", "/api/v4/profile/progress/fortress/",
-         "/api/v4/profile/badges/", "/api/v4/profile/bloods/", "/api/v4/profile/owns/", "/api/v4/profile/machines/", "/api/v4/profile/challenges/",
-         "/api/v4/profile/timeline/", "/api/v4/profile/overview/", "/api/v4/user/profile/progress/challenges/", "/api/v4/user/profile/graph/1M/"]
+PROBE = [
+    "/api/v4/user/profile/content/{id}", "/api/v4/user/profile/bloods/{id}", "/api/v4/user/profile/badges/{id}",
+    "/api/v4/user/submissions/machines", "/api/v4/user/submissions/challenges",
+    "/api/v4/profile/content/{id}", "/api/v4/profile/bloods/{id}",
+    "/api/v5/user/profile/activity/{id}", "/api/v5/user/profile/content/{id}", "/api/v5/user/profile/bloods/{id}",
+    "/api/v5/user/profile/basic/{id}", "/api/v5/profile/activity/{id}", "/api/v5/profile/content/{id}",
+    "/api/v5/user/activity/{id}", "/api/v5/user/{id}/activity", "/api/v5/user/{id}/owns", "/api/v5/user/dashboard",
+    "/api/v5/user/profile/activity/me", "/api/v4/user/profile/activity/me",
+]
+
+
+def shape(x, depth=0):
+    """Key names / list sizes only, no values."""
+    if isinstance(x, dict):
+        if depth >= 2:
+            return "{" + ",".join(list(x)[:12]) + "}"
+        return "{" + ",".join("%s:%s" % (k, shape(v, depth + 1)) for k, v in list(x.items())[:12]) + "}"
+    if isinstance(x, list):
+        return "[%d%s]" % (len(x), (" of " + shape(x[0], depth + 1)) if x and depth < 3 else "")
+    return type(x).__name__
 
 
 def probe(base):
-    """Runs only after a failure: shows which endpoints exist, and whether the token belongs to HTB_USER_ID."""
+    """Runs only after a failure: shows which endpoints exist and their JSON shape (no values)."""
     lines = []
     st, body = fetch(base + WHOAMI)
     try:
@@ -85,20 +101,14 @@ def probe(base):
     except Exception:
         lines.append("token check body not readable")
     for path in PROBE:
-        st, body = fetch(base + path + UID)
-        keys = ""
+        st, body = fetch(base + path.replace("{id}", UID))
+        info = ""
         if st == 200:
             try:
-                j = json.loads(body)
-                keys = " keys=" + ",".join(list(j)[:6])
-                inner = j.get("profile") if isinstance(j.get("profile"), dict) else j.get("data")
-                if isinstance(inner, dict):
-                    keys += " inner=" + ",".join(list(inner)[:10])
-                elif isinstance(inner, list):
-                    keys += " list=%d" % len(inner) + ((" item=" + ",".join(list(inner[0])[:10])) if inner and isinstance(inner[0], dict) else "")
+                info = " shape=" + shape(json.loads(body))[:400]
             except Exception:
-                pass
-        lines.append("%s%s: HTTP %s%s" % (base, path, st, keys))
+                info = " (not JSON)"
+        lines.append("%s: HTTP %s%s" % (path.replace("{id}", "<id>"), st, info))
     return lines
 
 
@@ -152,7 +162,7 @@ def build(acts):
 
 
 def main():
-    print("htb_activity.py v5 | commit %s | file %s" % (os.environ.get("GITHUB_SHA", "?")[:7], os.path.abspath(__file__)))
+    print("htb_activity.py v6 | commit %s | file %s" % (os.environ.get("GITHUB_SHA", "?")[:7], os.path.abspath(__file__)))
     if not TOKEN or not UID.isdigit():
         fail("HTB_TOKEN and a numeric HTB_USER_ID must be set as environment variables / Actions secrets")
     acts = get_activity()

@@ -16,7 +16,8 @@ OUT = os.environ.get("HTB_OUT", "htb-activity.json")
 TOKEN = os.environ.get("HTB_TOKEN", "").strip()
 UID = os.environ.get("HTB_USER_ID", "").strip()
 BASES = [b.strip().rstrip("/") for b in os.environ.get("HTB_BASE", "https://labs.hackthebox.com,https://www.hackthebox.com").split(",") if b.strip()]
-PATH = "/api/v4/user/profile/activity/"
+PATHS = ["/api/v4/profile/activity/", "/api/v4/user/profile/activity/"]  # HTB moved/renamed endpoints over time, try both
+WHOAMI = "/api/v4/user/info"  # only used to tell a bad token apart from a wrong path
 TAG = "HTB Labs"
 KEEP = 500
 
@@ -31,10 +32,10 @@ def fail(msg):
     sys.exit(1)
 
 
-def fetch(base):
+def fetch(url):
     req = urllib.request.Request(
-        base + PATH + UID,
-        headers={"Authorization": "Bearer " + TOKEN, "Accept": "application/json", "User-Agent": "Mozilla/5.0 (compatible; personal-portfolio-sync)"},
+        url,
+        headers={"Authorization": "Bearer " + TOKEN, "Accept": "application/json, text/plain, */*", "User-Agent": "Mozilla/5.0 (compatible; personal-portfolio-sync)"},
     )
     try:
         with urllib.request.build_opener(NoRedirect).open(req, timeout=30) as r:
@@ -52,25 +53,35 @@ HINTS = {
     401: "token invalid or expired",
     403: "token not allowed (or blocked)",
     404: "endpoint or user id not found",
+    406: "request refused (blocked or wrong Accept header)",
     429: "rate limited, try again later",
 }
+
+
+def pick(body):
+    j = json.loads(body)
+    for acts in (j.get("profile", {}).get("activity") if isinstance(j, dict) and isinstance(j.get("profile"), dict) else None,
+                 j.get("data") if isinstance(j, dict) else None, j if isinstance(j, list) else None):
+        if isinstance(acts, list):
+            return acts
+    raise ValueError("no activity list")
 
 
 def get_activity():
     errors = []
     for base in BASES:
-        status, body = fetch(base)
-        if status == 200:
-            try:
-                acts = json.loads(body)["profile"]["activity"]
-                if isinstance(acts, list):
-                    return acts
-                errors.append("%s: 'profile.activity' is not a list" % base)
-            except Exception:
-                errors.append("%s: unexpected response shape (HTTP 200 but no profile.activity)" % base)
-        else:
-            errors.append("%s: HTTP %s - %s" % (base, status, HINTS.get(status, "unexpected status")))
-    fail("; ".join(errors))
+        for path in PATHS:
+            status, body = fetch(base + path + UID)
+            if status == 200:
+                try:
+                    return pick(body)
+                except Exception:
+                    errors.append("%s%s: HTTP 200 but unexpected response shape" % (base, path))
+            else:
+                errors.append("%s%s: HTTP %s - %s" % (base, path, status, HINTS.get(status, "unexpected status")))
+        status, _ = fetch(base + WHOAMI)
+        errors.append("%s token check (%s): HTTP %s" % (base, WHOAMI, status))
+    fail("\n  ".join([""] + errors))
 
 
 def day(d):

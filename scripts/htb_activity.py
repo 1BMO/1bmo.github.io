@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# NOTE: VERSION 6 (diagnostic). The Actions log must start with "htb_activity.py v6". On failure it prints a
+# NOTE: VERSION 7. The Actions log must start with "htb_activity.py v7". On failure it prints a
 # "--- probe ---" section (endpoint, HTTP status, JSON key names only - never values).
 """Pull my Hack The Box activity and keep it in htb-activity.json (shown on the Progress page).
 
@@ -17,8 +17,8 @@ import urllib.request
 OUT = os.environ.get("HTB_OUT", "htb-activity.json")
 TOKEN = os.environ.get("HTB_TOKEN", "").strip()
 UID = os.environ.get("HTB_USER_ID", "").strip()
-BASES = [b.strip().rstrip("/") for b in os.environ.get("HTB_BASE", "https://labs.hackthebox.com,https://www.hackthebox.com").split(",") if b.strip()]
-PATHS = ["/api/v4/profile/activity/", "/api/v4/user/profile/activity/"]  # HTB moved/renamed endpoints over time, try both
+BASES = [b.strip().rstrip("/") for b in os.environ.get("HTB_BASE", "https://labs.hackthebox.com").split(",") if b.strip()]
+PATHS = ["/api/v5/user/profile/activity/"]  # HTB moved/renamed endpoints over time, try both
 WHOAMI = "/api/v4/user/info"  # only used to tell a bad token apart from a wrong path
 TAG = "HTB Labs"
 KEEP = 500
@@ -60,13 +60,32 @@ HINTS = {
 }
 
 
-def pick(body):
-    j = json.loads(body)
-    for acts in (j.get("profile", {}).get("activity") if isinstance(j, dict) and isinstance(j.get("profile"), dict) else None,
-                 j.get("data") if isinstance(j, dict) else None, j if isinstance(j, list) else None):
-        if isinstance(acts, list):
-            return acts
-    raise ValueError("no activity list")
+MAX_PAGES = 10
+
+
+def pages(base, path):
+    """v5 shape: {"data": [...], "meta": {"page", "lastPage", "totalItems"}}. Returns (items, error)."""
+    items, seen = [], set()
+    for page in range(1, MAX_PAGES + 1):
+        status, body = fetch("%s%s%s?page=%d" % (base, path, UID, page))
+        if status != 200:
+            return items, "HTTP %s - %s" % (status, HINTS.get(status, "unexpected status"))
+        try:
+            j = json.loads(body)
+            data = j["data"]
+            last = int((j.get("meta") or {}).get("lastPage") or 1)
+        except Exception:
+            return items, "HTTP 200 but unexpected response shape"
+        fresh = 0
+        for it in data:
+            key = json.dumps(it, sort_keys=True)
+            if key not in seen:
+                seen.add(key)
+                items.append(it)
+                fresh += 1
+        if page >= last or fresh == 0:
+            break
+    return items, None
 
 
 PROBE = [
@@ -116,16 +135,10 @@ def get_activity():
     errors = []
     for base in BASES:
         for path in PATHS:
-            status, body = fetch(base + path + UID)
-            if status == 200:
-                try:
-                    return pick(body)
-                except Exception:
-                    errors.append("%s%s: HTTP 200 but unexpected response shape" % (base, path))
-            else:
-                errors.append("%s%s: HTTP %s - %s" % (base, path, status, HINTS.get(status, "unexpected status")))
-        status, _ = fetch(base + WHOAMI)
-        errors.append("%s token check (%s): HTTP %s" % (base, WHOAMI, status))
+            items, err = pages(base, path)
+            if not err or items:
+                return items
+            errors.append("%s%s: %s" % (base, path, err))
     errors += ["--- probe ---"] + probe(BASES[0])
     fail("\n  ".join([""] + errors))
 
@@ -134,38 +147,54 @@ def day(d):
     return str(d or "")[:10]
 
 
+def kind(t):
+    t = str(t or "").lower()
+    if "challenge" in t:
+        return "challenge"
+    if "root" in t or "system" in t:
+        return "root"
+    if "user" in t:
+        return "user"
+    if "sherlock" in t:
+        return "sherlock"
+    return t or "other"
+
+
 def build(acts):
     machines, out = {}, {}
     for a in acts:
-        ot, ty, name = a.get("object_type"), a.get("type"), a.get("name")
+        name = a.get("name")
         if not name:
             continue
-        d, fb = day(a.get("date")), bool(a.get("first_blood"))
-        if ot == "machine":
+        k, d, fb = kind(a.get("type")), day(a.get("ownDate")), bool(a.get("blood"))
+        fbs = " · first blood" if fb else ""
+        if k in ("user", "root"):
             m = machines.setdefault(name, {})
-            if ty in ("user", "root") and (ty not in m or d > m[ty][0]):
-                m[ty] = (d, fb)
-        elif ot == "challenge":
-            cat = a.get("challenge_category") or ""
-            note = "Challenge" + (" · " + cat if cat else "") + (" · first blood" if fb else "")
-            out["challenge:%s" % (a.get("id") or name.lower())] = {"title": "Solved " + name, "date": d, "note": note}
+            if k not in m or d > m[k][0]:
+                m[k] = (d, fb)
+        elif k == "challenge":
+            out["challenge:%s" % (a.get("id") or name.lower())] = {"title": "Solved " + name, "date": d, "note": "Challenge" + fbs}
         else:
-            out["%s:%s" % (ot or "other", (a.get("id") or name).__str__().lower())] = {"title": "Completed " + name, "date": d, "note": (ot or "").capitalize() + (" · first blood" if fb else "")}
+            out["%s:%s" % (k, str(a.get("id") or name).lower())] = {"title": "Completed " + name, "date": d, "note": k.capitalize() + fbs}
     for name, m in machines.items():
         if "root" in m:
             d, fb = m["root"]
             out["machine:" + name.lower()] = {"title": "Rooted " + name, "date": d, "note": "Machine · root" + (" · first blood" if fb else "")}
-        elif "user" in m:
+        else:
             d, fb = m["user"]
             out["machine:" + name.lower()] = {"title": "Got user on " + name, "date": d, "note": "Machine · user flag" + (" · first blood" if fb else "")}
     return {k: dict(v, id=k, tag=TAG) for k, v in out.items()}
 
 
 def main():
-    print("htb_activity.py v6 | commit %s | file %s" % (os.environ.get("GITHUB_SHA", "?")[:7], os.path.abspath(__file__)))
+    print("htb_activity.py v7 | commit %s | file %s" % (os.environ.get("GITHUB_SHA", "?")[:7], os.path.abspath(__file__)))
     if not TOKEN or not UID.isdigit():
         fail("HTB_TOKEN and a numeric HTB_USER_ID must be set as environment variables / Actions secrets")
     acts = get_activity()
+    types = {}
+    for a in acts:
+        types[str(a.get("type"))] = types.get(str(a.get("type")), 0) + 1
+    print("item types seen: %s" % types)
     new = build(acts)
     try:
         with open(OUT, encoding="utf-8") as f:

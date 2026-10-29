@@ -13,7 +13,8 @@
     "note": "Challenge",
     "url": "https://app.hackthebox.com/challenges/Criticalops",
     "id": "challenge:965",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/c965.svg"
   },
   {
     "url": "https://app.hackthebox.com/machines/SmartHire",
@@ -493,7 +494,8 @@
     "note": "Challenge",
     "url": "https://app.hackthebox.com/challenges/The%20Suspicious%20Reviewer",
     "id": "challenge:972",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/c972.svg"
   },
   {
     "title": "Solved The Suspicious Domain",
@@ -501,7 +503,8 @@
     "note": "Challenge",
     "url": "https://app.hackthebox.com/challenges/The%20Suspicious%20Domain",
     "id": "challenge:973",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/c973.svg"
   },
   {
     "title": "Solved Follow The Money",
@@ -509,7 +512,8 @@
     "note": "Challenge",
     "url": "https://app.hackthebox.com/challenges/Follow%20The%20Money",
     "id": "challenge:976",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/c976.svg"
   },
   {
     "title": "Solved Evaluative",
@@ -517,7 +521,8 @@
     "note": "Challenge",
     "url": "https://app.hackthebox.com/challenges/Evaluative",
     "id": "challenge:868",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/c868.svg"
   },
   {
     "title": "Solved The Puppet Master",
@@ -525,7 +530,8 @@
     "note": "Challenge",
     "url": "https://app.hackthebox.com/challenges/The%20Puppet%20Master",
     "id": "challenge:977",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/c977.svg"
   },
   {
     "title": "Solved Social Media Investigation Hub",
@@ -533,7 +539,8 @@
     "note": "Challenge",
     "url": "https://app.hackthebox.com/challenges/Social%20Media%20Investigation%20Hub",
     "id": "challenge:975",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/c975.svg"
   },
   {
     "url": "https://app.hackthebox.com/machines/Signed",
@@ -549,7 +556,8 @@
     "note": "Challenge",
     "url": "https://app.hackthebox.com/challenges/Flag%20Command",
     "id": "challenge:646",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/c646.svg"
   },
   {
     "url": "https://app.hackthebox.com/machines/Soulmate",

@@ -22,7 +22,8 @@
     "date": "2026-08-21",
     "note": "Machine · root",
     "id": "machine:smarthire",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m897.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/DanglingTree",
@@ -30,7 +31,8 @@
     "date": "2026-08-11",
     "note": "Machine · root",
     "id": "machine:danglingtree",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m936.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Snoopy",
@@ -38,7 +40,8 @@
     "date": "2026-08-09",
     "note": "Machine · root",
     "id": "machine:snoopy",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m541.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Redelegate",
@@ -46,7 +49,8 @@
     "date": "2026-08-07",
     "note": "Machine · root",
     "id": "machine:redelegate",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m681.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Craft",
@@ -54,7 +58,8 @@
     "date": "2026-08-07",
     "note": "Machine · root",
     "id": "machine:craft",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m197.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Authority",
@@ -62,7 +67,8 @@
     "date": "2026-08-06",
     "note": "Machine · root",
     "id": "machine:authority",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m553.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Voleur",
@@ -70,7 +76,8 @@
     "date": "2026-08-05",
     "note": "Machine · root",
     "id": "machine:voleur",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m670.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/StreamIO",
@@ -78,7 +85,8 @@
     "date": "2026-08-05",
     "note": "Machine · root",
     "id": "machine:streamio",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m474.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/VulnCicada",
@@ -86,7 +94,8 @@
     "date": "2026-08-03",
     "note": "Machine · root",
     "id": "machine:vulncicada",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m677.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Media",
@@ -94,7 +103,8 @@
     "date": "2026-08-03",
     "note": "Machine · root",
     "id": "machine:media",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m718.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/TombWatcher",
@@ -102,7 +112,8 @@
     "date": "2026-08-02",
     "note": "Machine · root",
     "id": "machine:tombwatcher",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m664.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Cohort",
@@ -110,7 +121,8 @@
     "date": "2026-08-02",
     "note": "Machine · root",
     "id": "machine:cohort",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m933.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Pov",
@@ -118,7 +130,8 @@
     "date": "2026-08-01",
     "note": "Machine · root",
     "id": "machine:pov",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m585.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Postman",
@@ -126,7 +139,8 @@
     "date": "2026-08-01",
     "note": "Machine · root",
     "id": "machine:postman",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m215.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Jeeves",
@@ -134,7 +148,8 @@
     "date": "2026-08-01",
     "note": "Machine · root",
     "id": "machine:jeeves",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m114.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/DarkZeroReturns",
@@ -150,7 +165,8 @@
     "date": "2026-07-22",
     "note": "Machine · root",
     "id": "machine:bedside",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m927.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Editorial",
@@ -158,7 +174,8 @@
     "date": "2026-07-16",
     "note": "Machine · user flag",
     "id": "machine:editorial",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m608.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Soccer",
@@ -166,7 +183,8 @@
     "date": "2026-07-13",
     "note": "Machine · root",
     "id": "machine:soccer",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m519.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Active",
@@ -174,7 +192,8 @@
     "date": "2026-07-13",
     "note": "Machine · root",
     "id": "machine:active",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m148.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Union",
@@ -182,7 +201,8 @@
     "date": "2026-07-12",
     "note": "Machine · root",
     "id": "machine:union",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m418.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Paperwork",
@@ -190,7 +210,8 @@
     "date": "2026-07-11",
     "note": "Machine · root",
     "id": "machine:paperwork",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m921.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Fluffy",
@@ -198,7 +219,8 @@
     "date": "2026-07-10",
     "note": "Machine · root",
     "id": "machine:fluffy",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m662.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Forest",
@@ -206,7 +228,8 @@
     "date": "2026-07-08",
     "note": "Machine · root",
     "id": "machine:forest",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m212.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/MakeSense",
@@ -230,7 +253,8 @@
     "date": "2026-06-23",
     "note": "Machine · root",
     "id": "machine:nimbus",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m912.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Nexus",
@@ -238,7 +262,8 @@
     "date": "2026-06-23",
     "note": "Machine · user flag",
     "id": "machine:nexus",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m948.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/TwoMillion",
@@ -246,7 +271,8 @@
     "date": "2026-06-22",
     "note": "Machine · root",
     "id": "machine:twomillion",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m547.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Checkpoint",
@@ -262,7 +288,8 @@
     "date": "2026-06-12",
     "note": "Machine · root",
     "id": "machine:connected",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m906.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/DevHub",
@@ -278,7 +305,8 @@
     "date": "2026-05-28",
     "note": "Machine · root",
     "id": "machine:reactor",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m900.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Trick",
@@ -286,7 +314,8 @@
     "date": "2026-05-12",
     "note": "Machine · root",
     "id": "machine:trick",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m477.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Helix",
@@ -294,7 +323,8 @@
     "date": "2026-05-11",
     "note": "Machine · root",
     "id": "machine:helix",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m894.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Bruno",
@@ -302,7 +332,8 @@
     "date": "2026-04-27",
     "note": "Machine · root",
     "id": "machine:bruno",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m781.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Breach",
@@ -310,7 +341,8 @@
     "date": "2026-04-27",
     "note": "Machine · root",
     "id": "machine:breach",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m766.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Administrator",
@@ -318,7 +350,8 @@
     "date": "2026-04-27",
     "note": "Machine · root",
     "id": "machine:administrator",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m634.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Logging",
@@ -326,7 +359,8 @@
     "date": "2026-04-22",
     "note": "Machine · root",
     "id": "machine:logging",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m888.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Silentium",
@@ -334,7 +368,8 @@
     "date": "2026-04-12",
     "note": "Machine · root",
     "id": "machine:silentium",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m867.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Garfield",
@@ -342,7 +377,8 @@
     "date": "2026-04-05",
     "note": "Machine · root",
     "id": "machine:garfield",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m862.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/DevArea",
@@ -350,7 +386,8 @@
     "date": "2026-04-02",
     "note": "Machine · root",
     "id": "machine:devarea",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m859.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Kobold",
@@ -358,7 +395,8 @@
     "date": "2026-03-26",
     "note": "Machine · root",
     "id": "machine:kobold",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m856.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/VariaType",
@@ -366,7 +404,8 @@
     "date": "2026-03-16",
     "note": "Machine · root",
     "id": "machine:variatype",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m850.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/CCTV",
@@ -374,7 +413,8 @@
     "date": "2026-03-07",
     "note": "Machine · root",
     "id": "machine:cctv",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m847.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Pirate",
@@ -382,7 +422,8 @@
     "date": "2026-03-06",
     "note": "Machine · root",
     "id": "machine:pirate",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m844.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Interpreter",
@@ -390,7 +431,8 @@
     "date": "2026-02-25",
     "note": "Machine · root",
     "id": "machine:interpreter",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m841.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/WingData",
@@ -398,7 +440,8 @@
     "date": "2026-02-14",
     "note": "Machine · root",
     "id": "machine:wingdata",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m835.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Pterodactyl",
@@ -406,7 +449,8 @@
     "date": "2026-02-07",
     "note": "Machine · root",
     "id": "machine:pterodactyl",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m832.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Facts",
@@ -414,7 +458,8 @@
     "date": "2026-01-31",
     "note": "Machine · root",
     "id": "machine:facts",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m829.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Overwatch",
@@ -422,7 +467,8 @@
     "date": "2026-01-27",
     "note": "Machine · root",
     "id": "machine:overwatch",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m826.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Giveback",
@@ -430,7 +476,8 @@
     "date": "2026-01-19",
     "note": "Machine · root",
     "id": "machine:giveback",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m796.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Browsed",
@@ -438,7 +485,8 @@
     "date": "2026-01-17",
     "note": "Machine · root",
     "id": "machine:browsed",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m820.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Eloquia",
@@ -446,7 +494,8 @@
     "date": "2025-12-16",
     "note": "Machine · root",
     "id": "machine:eloquia",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m817.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/MonitorsFour",
@@ -454,7 +503,8 @@
     "date": "2025-12-09",
     "note": "Machine · root",
     "id": "machine:monitorsfour",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m814.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Editor",
@@ -462,7 +512,8 @@
     "date": "2025-12-03",
     "note": "Machine · root",
     "id": "machine:editor",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m684.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Gavel",
@@ -470,7 +521,8 @@
     "date": "2025-12-02",
     "note": "Machine · root",
     "id": "machine:gavel",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m811.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Eighteen",
@@ -478,7 +530,8 @@
     "date": "2025-11-22",
     "note": "Machine · root",
     "id": "machine:eighteen",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m805.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Conversor",
@@ -486,7 +539,8 @@
     "date": "2025-11-12",
     "note": "Machine · root",
     "id": "machine:conversor",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m787.png"
   },
   {
     "title": "Solved The Suspicious Reviewer",
@@ -548,7 +602,8 @@
     "date": "2025-10-14",
     "note": "Machine · root",
     "id": "machine:signed",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m775.png"
   },
   {
     "title": "Solved Flag Command",
@@ -565,7 +620,8 @@
     "date": "2025-10-05",
     "note": "Machine · root",
     "id": "machine:soulmate",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m721.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/DarkZero",
@@ -573,7 +629,8 @@
     "date": "2025-10-05",
     "note": "Machine · root",
     "id": "machine:darkzero",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m754.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Imagery",
@@ -581,7 +638,8 @@
     "date": "2025-09-27",
     "note": "Machine · root",
     "id": "machine:imagery",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m751.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/CodePartTwo",
@@ -589,7 +647,8 @@
     "date": "2025-09-27",
     "note": "Machine · root",
     "id": "machine:codeparttwo",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m692.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Expressway",
@@ -597,7 +656,8 @@
     "date": "2025-09-20",
     "note": "Machine · root",
     "id": "machine:expressway",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m736.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Sau",
@@ -605,7 +665,8 @@
     "date": "2025-07-09",
     "note": "Machine · root",
     "id": "machine:sau",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m551.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Nibbles",
@@ -613,7 +674,8 @@
     "date": "2025-07-04",
     "note": "Machine · root",
     "id": "machine:nibbles",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m121.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Jerry",
@@ -621,7 +683,8 @@
     "date": "2025-07-04",
     "note": "Machine · root",
     "id": "machine:jerry",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m144.png"
   },
   {
     "url": "https://app.hackthebox.com/machines/Cap",
@@ -629,6 +692,7 @@
     "date": "2025-07-03",
     "note": "Machine · root",
     "id": "machine:cap",
-    "tag": "HTB Labs"
+    "tag": "HTB Labs",
+    "img": "htb-img/m351.png"
   }
 ]

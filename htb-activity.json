@@ -1,5 +1,14 @@
 [
   {
+    "title": "Solved OpenSecret",
+    "date": "2026-11-02",
+    "note": "Challenge",
+    "url": "https://app.hackthebox.com/challenges/OpenSecret",
+    "id": "challenge:1135",
+    "tag": "HTB Labs",
+    "img": "htb-img/c1135.svg"
+  },
+  {
     "url": "https://app.hackthebox.com/machines/Layover",
     "title": "Rooted Layover",
     "date": "2026-09-30",

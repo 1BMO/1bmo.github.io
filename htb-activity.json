@@ -1,5 +1,14 @@
 [
   {
+    "title": "Solved ReactOOPS",
+    "date": "2026-11-03",
+    "note": "Challenge",
+    "url": "https://app.hackthebox.com/challenges/ReactOOPS",
+    "id": "challenge:1081",
+    "tag": "HTB Labs",
+    "img": "htb-img/c1081.svg"
+  },
+  {
     "title": "Solved OpenSecret",
     "date": "2026-11-02",
     "note": "Challenge",

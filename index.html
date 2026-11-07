@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>1bm0 | Penetration Tester</title>
-<link rel="icon" id="fav" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"%3E%3Crect width="64" height="64" rx="14" fill="%2308090b"/%3E%3Crect x="14" y="8" width="36" height="48" rx="7" fill="none" stroke="%23ff2e4d" stroke-width="3.5"/%3E%3Crect x="19" y="13" width="26" height="19" rx="2.5" fill="%23ff2e4d" fill-opacity=".14" stroke="%23ff2e4d" stroke-width="2"/%3E%3Cpath d="M24 17l5 4-5 4M32 26h8" fill="none" stroke="%23ff2e4d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/%3E%3Cpath d="M23 37v11M17.5 42.5h11" stroke="%23ff2e4d" stroke-width="3.6" stroke-linecap="round"/%3E%3Ccircle cx="39" cy="41" r="3.2" fill="%23ff2e4d"/%3E%3Ccircle cx="44.5" cy="47" r="3.2" fill="%23ff2e4d"/%3E%3C/svg%3E">
+<link rel="icon" id="fav" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"%3E%3Crect x="6" y="1" width="52" height="62" rx="11" fill="%23ff2e4d"/%3E%3Crect x="12" y="7" width="40" height="32" rx="5" fill="%2308090b"/%3E%3Cpath d="M20 14l9 7-9 7M33 29h12" fill="none" stroke="%23ff2e4d" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/%3E%3Cpath d="M21 43v16M13 51h16" stroke="%2308090b" stroke-width="5.5" stroke-linecap="round"/%3E%3Ccircle cx="41" cy="48" r="4.6" fill="%2308090b"/%3E%3Ccircle cx="50" cy="54" r="4.6" fill="%2308090b"/%3E%3C/svg%3E">
 <script>try{if(localStorage.getItem("intro")==="1")document.documentElement.className+=" nointro"}catch(e){}</script>
 <style>
 :root{--bg:#08090b;--panel:#101216;--line:#232830;--text:#e8eaee;--mute:#8a919d;--acc:#ff2e4d;--acc2:#ff8a5c;
@@ -342,8 +342,8 @@ var tt=document.getElementById("tt"),theme="red";
 try{theme=localStorage.getItem("t")||"red"}catch(e){}
 if(theme!=="blue")theme="red";
 
-function favSvg(blue,c){var scr=blue?'<path d="M32 15l8 3v5c0 4-3 6-8 8-5-2-8-4-8-8v-5z" fill="none" stroke="'+c+'" stroke-width="2.2" stroke-linejoin="round"/>':'<path d="M24 17l5 4-5 4M32 26h8" fill="none" stroke="'+c+'" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>';
- return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#08090b"/><rect x="14" y="8" width="36" height="48" rx="7" fill="none" stroke="'+c+'" stroke-width="3.5"/><rect x="19" y="13" width="26" height="19" rx="2.5" fill="'+c+'" fill-opacity=".14" stroke="'+c+'" stroke-width="2"/>'+scr+'<path d="M23 37v11M17.5 42.5h11" stroke="'+c+'" stroke-width="3.6" stroke-linecap="round"/><circle cx="39" cy="41" r="3.2" fill="'+c+'"/><circle cx="44.5" cy="47" r="3.2" fill="'+c+'"/></svg>'}
+function favSvg(bl,c){var scr=bl?'<path d="M32 12l11 4v7c0 6-4 9-11 12-7-3-11-6-11-12v-7z" fill="none" stroke="'+c+'" stroke-width="4" stroke-linejoin="round"/>':'<path d="M20 14l9 7-9 7M33 29h12" fill="none" stroke="'+c+'" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>';
+ return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect x="6" y="1" width="52" height="62" rx="11" fill="'+c+'"/><rect x="12" y="7" width="40" height="32" rx="5" fill="#08090b"/>'+scr+'<path d="M21 43v16M13 51h16" stroke="#08090b" stroke-width="5.5" stroke-linecap="round"/><circle cx="41" cy="48" r="4.6" fill="#08090b"/><circle cx="50" cy="54" r="4.6" fill="#08090b"/></svg>'}
 function setFav(){var f=document.getElementById("fav");if(!f)return;var bl=theme==="blue";f.href="data:image/svg+xml,"+encodeURIComponent(favSvg(bl,bl?"#22d3ee":"#ff2e4d"))}
 function setT(t){theme=t;document.documentElement.dataset.t=t;tt.textContent="theme: "+t;try{localStorage.setItem("t",t)}catch(e){}setFav();if(Array.isArray(PROG)&&Array.isArray(AUTO))renderProgress()}
 tt.onclick=function(){setT(theme==="red"?"blue":"red")};

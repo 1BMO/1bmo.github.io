@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>1bm0 | Penetration Tester</title>
+<link rel="icon" id="fav" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2714%27 fill=%27%2308090b%27/%3E%3Crect x=%272%27 y=%272%27 width=%2760%27 height=%2760%27 rx=%2712%27 fill=%27none%27 stroke=%27%23ff2e4d%27 stroke-width=%273%27/%3E%3Ctext x=%2732%27 y=%2743%27 text-anchor=%27middle%27 font-family=%27monospace%27 font-weight=%27700%27 font-size=%2730%27 fill=%27%23ff2e4d%27%3E1b%3C/text%3E%3C/svg%3E">
 <script>try{if(localStorage.getItem("intro")==="1")document.documentElement.className+=" nointro"}catch(e){}</script>
 <style>
 :root{--bg:#08090b;--panel:#101216;--line:#232830;--text:#e8eaee;--mute:#8a919d;--acc:#ff2e4d;--acc2:#ff8a5c;
@@ -186,6 +187,10 @@ footer{border-top:1px solid var(--line);margin-top:70px;padding:24px 0 40px;colo
 .pedal:focus-visible{outline:2px solid var(--acc);outline-offset:4px;border-radius:10px}
 .plbl{font-size:13px;font-weight:700}
 .ictl{align-items:flex-end}
+.ivol{display:flex;align-items:center;gap:8px;margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--mute)}
+.ivol input{width:110px;accent-color:var(--acc);cursor:pointer}
+.ivol output{min-width:2.4em;text-align:right;color:var(--text)}
+@media (max-width:560px){.ivol{margin-left:0;width:100%}.ivol input{flex:1}}
 @media (prefers-reduced-motion:reduce){.ppad{transition:none}}
 
 /* progress feed */
@@ -195,6 +200,10 @@ footer{border-top:1px solid var(--line);margin-top:70px;padding:24px 0 40px;colo
 .pbody b{font-family:var(--mono);font-size:15px;font-weight:600;overflow-wrap:anywhere}
 .pimg{float:right;width:56px;height:56px;object-fit:cover;border-radius:10px;border:1px solid var(--line);margin:0 0 6px 12px;background:var(--bg,#000)}
 .ptags{display:inline-flex;gap:6px;flex-wrap:wrap;margin-left:8px;vertical-align:middle}
+.pblue{border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:10px;background:var(--panel);padding:18px 20px;margin-top:14px;max-width:560px}
+.pblue b{display:block;font-family:var(--mono);font-size:15px;color:var(--acc);margin-bottom:6px}
+.pblue p{margin:0 0 10px;color:var(--text);line-height:1.55}
+.pblue small{color:var(--mute);font-family:var(--mono);font-size:12px}
 .ptag{border:1px solid var(--line);border-radius:999px;padding:0 9px;font-family:var(--mono);font-size:11px;color:var(--mute)}
 .pbody p{margin:6px 0 0;color:var(--mute);font-size:14px;white-space:pre-line;overflow-wrap:anywhere}
 .pbody a{display:block;width:fit-content;margin-top:8px;color:var(--acc);font-family:var(--mono);font-size:13px;text-decoration:none}
@@ -255,6 +264,7 @@ footer{border-top:1px solid var(--line);margin-top:70px;padding:24px 0 40px;colo
   <button type="button" class="pedal" id="accel" aria-label="Acceleration pedal. Hold to rev, release to idle."><span class="pbase"><span class="ppad"></span></span><span class="plbl">Acceleration</span></button>
   <button type="button" class="btn ghost ibtn" id="engoff" hidden>Engine off</button>
   <span class="ihint" id="ihint">hold the pedal to rev, release to idle</span>
+  <label class="ivol"><span>vol</span><input type="range" id="ivol" min="0" max="100" step="1" value="70" aria-label="Engine volume"><output id="ivolv">70</output></label>
  </div>
  </section>
 
@@ -331,7 +341,9 @@ function loadPost(slug){
 var tt=document.getElementById("tt"),theme="red";
 try{theme=localStorage.getItem("t")||"red"}catch(e){}
 if(theme!=="blue")theme="red";
-function setT(t){theme=t;document.documentElement.dataset.t=t;tt.textContent="theme: "+t;try{localStorage.setItem("t",t)}catch(e){}}
+
+function setFav(){var f=document.getElementById("fav");if(!f)return;var c=theme==="blue"?"#22d3ee":"#ff2e4d";f.href="data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#08090b"/><rect x="2" y="2" width="60" height="60" rx="12" fill="none" stroke="'+c+'" stroke-width="3"/><text x="32" y="43" text-anchor="middle" font-family="monospace" font-weight="700" font-size="30" fill="'+c+'">1b</text></svg>')}
+function setT(t){theme=t;document.documentElement.dataset.t=t;tt.textContent="theme: "+t;try{localStorage.setItem("t",t)}catch(e){}setFav();if(Array.isArray(PROG)&&Array.isArray(AUTO))renderProgress()}
 tt.onclick=function(){setT(theme==="red"?"blue":"red")};
 function initTilt(){if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;document.querySelectorAll(".cprev").forEach(function(c){if(c._t)return;c._t=1;
  function mv(e){var r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
@@ -350,13 +362,15 @@ try{localStorage.setItem("intro","1")}catch(e){}
 (function(){var b=document.getElementById("replay"),h=document.documentElement;if(!b)return;
  b.addEventListener("click",function(){h.classList.add("nointro");void h.offsetWidth;h.classList.remove("nointro")})})();
 
-var eng={ctx:null,buf:null,loading:null,mst:null,idleG:null,idleSrc:null,p:null,down:false,tok:0};
+var eng={ctx:null,buf:null,loading:null,mst:null,idleG:null,idleSrc:null,p:null,down:false,tok:0,vol:.7};
+function volGain(v){return v*v*1.25} // slider 0..1 -> master gain (quadratic = feels even)
+try{var sv=parseFloat(localStorage.getItem("vol"));if(sv>=0&&sv<=1)eng.vol=sv}catch(e){}
 var ENG_FILES={idle:"interests/engine-idle.wav",start:"interests/engine-start.wav",rev:"interests/engine-rev.wav"};
 function engUI(){var c=document.getElementById("icatImg"),k=document.getElementById("accel");if(c)c.src="interests/cat-"+(eng.down?"open":"closed")+".webp";if(k)k.classList.toggle("down",eng.down)}
 function engLoad(){
  if(eng.loading)return eng.loading;
  var AC=window.AudioContext||window.webkitAudioContext;if(!AC)return Promise.reject(new Error("no audio"));
- var c=new AC();eng.ctx=c;eng.mst=c.createGain();eng.mst.gain.value=.9;eng.mst.connect(c.destination);
+ var c=new AC();eng.ctx=c;eng.mst=c.createGain();eng.mst.gain.value=volGain(eng.vol);eng.mst.connect(c.destination);
  eng.idleG=c.createGain();eng.idleG.gain.value=0;eng.idleG.connect(eng.mst);
  eng.loading=Promise.all(Object.keys(ENG_FILES).map(function(k){
   return fetch(ENG_FILES[k]).then(function(r){if(!r.ok)throw new Error(k);return r.arrayBuffer()})
@@ -366,7 +380,7 @@ function engLoad(){
  return eng.loading}
 function engIdle(){if(eng.idleSrc||!eng.buf)return;var s=eng.ctx.createBufferSource();s.buffer=eng.buf.idle;s.loop=true;s.connect(eng.idleG);s.start();eng.idleSrc=s}
 function engBlend(a,b){var r=new Float32Array(64);for(var i=0;i<64;i++){var x=i/63*Math.PI/2;r[i]=a*Math.cos(x)+b*Math.sin(x)}return r} // equal-power crossfade curve
-function engKill(p,delay){setTimeout(function(){try{p.a.stop();p.s.stop()}catch(e){}try{p.g.disconnect()}catch(e){}},delay)}
+function engKill(p,delay){setTimeout(function(){try{p.a.stop();p.s.stop()}catch(e){}try{p.l.stop()}catch(e){}try{p.g.disconnect()}catch(e){}},delay)}
 function stopEngine(){if(!eng)return;eng.down=false;eng.tok++;
  if(eng.ctx&&eng.idleG){var t=eng.ctx.currentTime,src=eng.idleSrc,p=eng.p;eng.idleSrc=null;eng.p=null;
   eng.idleG.gain.cancelScheduledValues(t);eng.idleG.gain.setTargetAtTime(0,t,.05);
@@ -376,7 +390,7 @@ function stopEngine(){if(!eng)return;eng.down=false;eng.tok++;
 (function(){
  var ac=document.getElementById("accel"),off=document.getElementById("engoff"),hint=document.getElementById("ihint");
  if(!ac)return;
- var IDLE=.9,fail=function(){hint.textContent="no engine sound file found";stopEngine()};
+ var IDLE=.9,LAG=.09,FLT_LO=1000,FLT_HI=16000,HUNT=22,DECAY=.9,DROP=.82,fail=function(){hint.textContent="no engine sound file found";stopEngine()};
  window.engPre=function(){engLoad().catch(function(){})};
  function press(){
   if(eng.down)return;eng.down=true;engUI();hint.textContent="revving";off.hidden=false;
@@ -385,20 +399,28 @@ function stopEngine(){if(!eng)return;eng.down=false;eng.tok++;
   if(eng.ctx&&eng.ctx.state==="suspended")eng.ctx.resume();
   eng.loading.then(function(){
    if(eng.tok!==tok)return;
-   var c=eng.ctx,t=c.currentTime+.01;engIdle();
-   if(!eng.down){eng.idleG.gain.setTargetAtTime(IDLE,t,.1);return}
-   var g=c.createGain();g.gain.value=0;g.gain.setValueCurveAtTime(engBlend(0,1),t,.12);g.connect(eng.mst);
-   var a=c.createBufferSource();a.buffer=eng.buf.start;a.connect(g);a.start(t);
-   var s=c.createBufferSource();s.buffer=eng.buf.rev;s.loop=true;s.connect(g);s.start(t+eng.buf.start.duration);
-   var iv=eng.idleG.gain.value;eng.idleG.gain.cancelScheduledValues(t);eng.idleG.gain.setValueCurveAtTime(engBlend(iv,0),t,.12);
-   eng.p={g:g,a:a,s:s}
+   var c=eng.ctx,now=c.currentTime,t=now+LAG,d=eng.buf.start.duration;engIdle();
+   if(!eng.down){eng.idleG.gain.setTargetAtTime(IDLE,now,.1);return}
+   // throttle lag: idle keeps running for LAG, then the rev builds up
+   var g=c.createGain();g.gain.value=0;g.gain.setValueCurveAtTime(engBlend(0,1),t,.2);g.connect(eng.mst);
+   var f=c.createBiquadFilter();f.type="lowpass";f.Q.value=.6;f.frequency.setValueAtTime(FLT_LO,t);f.frequency.exponentialRampToValueAtTime(FLT_HI,t+d*.9);f.connect(g);
+   var a=c.createBufferSource();a.buffer=eng.buf.start;a.connect(f);a.start(t);
+   var s=c.createBufferSource();s.buffer=eng.buf.rev;s.loop=true;s.connect(f);s.start(t+d);
+   var l=c.createOscillator(),lg=c.createGain();l.frequency.value=.55;lg.gain.value=HUNT;l.connect(lg);lg.connect(s.detune);l.start(t+d); // slow rpm hunting while held
+   var iv=eng.idleG.gain.value;eng.idleG.gain.cancelScheduledValues(now);eng.idleG.gain.setValueAtTime(iv,now);eng.idleG.gain.setValueCurveAtTime(engBlend(iv,0),t,.22);
+   eng.p={g:g,f:f,a:a,s:s,l:l}
   }).catch(fail)}
  function release(){
   if(!eng.down)return;eng.down=false;engUI();hint.textContent="idling";
   if(!eng.ctx||!eng.buf||!eng.idleG)return;
   var c=eng.ctx,t=c.currentTime,p=eng.p;eng.p=null;
-  var iv=eng.idleG.gain.value;eng.idleG.gain.cancelScheduledValues(t);eng.idleG.gain.setValueCurveAtTime(engBlend(iv,IDLE),t,.35);
-  if(p){var pv=p.g.gain.value;p.g.gain.cancelScheduledValues(t);p.g.gain.setValueCurveAtTime(engBlend(pv,0),t,.35);engKill(p,900)}}
+  var iv=eng.idleG.gain.value;eng.idleG.gain.cancelScheduledValues(t);eng.idleG.gain.setValueAtTime(iv,t);eng.idleG.gain.setValueCurveAtTime(engBlend(iv,IDLE),t+.18,.6);
+  if(p){
+   // lift off: rpm falls (pitch sinks a little), the sound closes up and dies away while idle comes back
+   var pv=Math.max(p.g.gain.value,.25);p.g.gain.cancelScheduledValues(t);p.g.gain.setValueAtTime(pv,t);p.g.gain.setValueCurveAtTime(engBlend(pv,0),t,DECAY);
+   p.f.frequency.cancelScheduledValues(t);p.f.frequency.setTargetAtTime(FLT_LO,t,.32);
+   [p.a,p.s].forEach(function(x){x.playbackRate.cancelScheduledValues(t);x.playbackRate.setTargetAtTime(DROP,t,.3)});
+   engKill(p,Math.round(DECAY*1000)+400)}}
  ac.addEventListener("pointerdown",function(e){if(e.button>0)return;e.preventDefault();try{ac.setPointerCapture(e.pointerId)}catch(x){}press()});
  ac.addEventListener("pointerup",release);ac.addEventListener("pointercancel",release);ac.addEventListener("lostpointercapture",release);
  ac.addEventListener("contextmenu",function(e){e.preventDefault()});
@@ -407,6 +429,10 @@ function stopEngine(){if(!eng)return;eng.down=false;eng.tok++;
  ac.addEventListener("blur",release);window.addEventListener("blur",release);
  document.addEventListener("visibilitychange",function(){if(document.hidden)release()});
  off.addEventListener("click",function(){stopEngine()});
+ var vs=document.getElementById("ivol"),vo=document.getElementById("ivolv");
+ if(vs){vs.value=Math.round(eng.vol*100);vo.textContent=vs.value;
+  vs.addEventListener("input",function(){var v=Math.max(0,Math.min(100,+vs.value||0))/100;eng.vol=v;vo.textContent=Math.round(v*100);try{localStorage.setItem("vol",String(v))}catch(e){}
+   if(eng.ctx&&eng.mst)eng.mst.gain.setTargetAtTime(volGain(v),eng.ctx.currentTime,.03)})}
  if(location.hash==="#interests")window.engPre()
 })();
 var DEF_IMG=(document.querySelector(".cprev img")||{}).src||"";
@@ -451,15 +477,18 @@ renderXP(DEF_XP);
 var AUTO=[];
 // AUTO = entries written by the HTB sync workflow (htb-activity.json); shown together with the manual ones, newest first
 function allProg(){var m=PROG.concat(AUTO);if(!AUTO.length)return m;return m.map(function(x,i){return[x,i]}).sort(function(a,b){var d=String((b[0]&&b[0].date)||"").localeCompare(String((a[0]&&a[0].date)||""));return d||a[1]-b[1]}).map(function(p){return p[0]})}
+function isBlueTag(x){return /blue/i.test(String((x&&x.tag)||""))}
 function renderProgress(){
  var c=document.getElementById("pchips"),l=document.getElementById("plist");if(!l)return;
  var ALLP=allProg();
+ // blue theme: only entries tagged "Blue ..." are shown; the offensive (red) work stays out of it
+ if(theme==="blue")ALLP=ALLP.filter(isBlueTag);
  var tags=[];ALLP.forEach(function(x){if(!x||!String(x.title||"").trim())return;var t=String(x.tag||"").trim();if(t&&tags.indexOf(t)<0)tags.push(t)});
  tags.sort(function(a,b){var i=PCATS.indexOf(a),j=PCATS.indexOf(b);return (i<0?999:i)-(j<0?999:j)});
  if(ptag!=="All"&&tags.indexOf(ptag)<0)ptag="All";
  c.innerHTML="";if(tags.length>1){["All"].concat(tags).forEach(function(n){var b=document.createElement("button");b.textContent=n;if(n===ptag)b.className="on";b.onclick=function(){ptag=n;renderProgress()};c.appendChild(b)})}
  var items=ALLP.filter(function(x){return x&&String(x.title||"").trim()&&(ptag==="All"||String(x.tag||"").trim()===ptag)});
- l.innerHTML="";if(!items.length){l.appendChild(mk("div","empty","Nothing posted yet."));return}
+ l.innerHTML="";if(!items.length){if(theme==="blue"){var bx=mk("div","pblue");bx.appendChild(mk("b",null,"Blue team track"));bx.appendChild(mk("p",null,"Defensive progress will be posted here. Nothing yet, and I would rather leave it empty than fill it with filler."));bx.appendChild(mk("small",null,"Looking for my offensive work? Switch the theme to red."));l.appendChild(bx)}else l.appendChild(mk("div","empty","Nothing posted yet."));return}
  items.forEach(function(x){var r=mk("div","pitem");r.appendChild(mk("div","pdate",x.date||""));var b=mk("div","pbody");var im=String(x.img||"");if(/^htb-img\/[A-Za-z0-9._-]+$/.test(im)){var pic=document.createElement("img");pic.src=im;pic.alt="";pic.className="pimg";pic.loading="lazy";pic.onerror=function(){pic.remove()};b.appendChild(pic)}b.appendChild(mk("b",null,x.title));
   if(x.tag){var g=mk("span","ptags");g.appendChild(mk("span","ptag",x.tag));b.appendChild(g)}
   if(x.note)b.appendChild(mk("p",null,x.note));

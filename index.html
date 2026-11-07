@@ -199,6 +199,9 @@ footer{border-top:1px solid var(--line);margin-top:70px;padding:24px 0 40px;colo
 
 /* progress feed */
 .pitem{display:grid;grid-template-columns:100px minmax(0,1fr);gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
+.pitem{padding-left:14px;box-shadow:inset 3px 0 0 var(--acc)}
+.pitem.t-r{--acc:#ff2e4d}
+.pitem.t-b{--acc:#22d3ee}
 .pitem:first-child{border-top:1px solid var(--line)}
 .pdate{font-family:var(--mono);font-size:12px;color:var(--mute);padding-top:4px}
 .pbody b{font-family:var(--mono);font-size:15px;font-weight:600;overflow-wrap:anywhere}
@@ -491,7 +494,7 @@ renderXP(DEF_XP);
 var AUTO=[];
 // AUTO = entries written by the HTB sync workflow (htb-activity.json); shown together with the manual ones, newest first
 function allProg(){var m=PROG.concat(AUTO);if(!AUTO.length)return m;return m.map(function(x,i){return[x,i]}).sort(function(a,b){var d=String((b[0]&&b[0].date)||"").localeCompare(String((a[0]&&a[0].date)||""));return d||a[1]-b[1]}).map(function(p){return p[0]})}
-function teamOf(t){t=String(t||"");return /sherlock|blue|dfir|soc\b|detection/i.test(t)?"t-b":/\bred\b|challenge|machine|pro ?lab|fortress|bug/i.test(t)?"t-r":""}
+function teamOf(t){t=String(t||"");return /sherlock|blue|dfir|soc\b|detection/i.test(t)?"t-b":"t-r"} // only Sherlocks / Blue-tagged entries are blue, everything else (machines, challenges, academy, certs) is red
 function renderProgress(){
  var c=document.getElementById("pchips"),l=document.getElementById("plist");if(!l)return;
  var ALLP=allProg();
@@ -502,7 +505,7 @@ function renderProgress(){
  c.innerHTML="";if(tags.length>1){["All"].concat(tags).forEach(function(n){var b=document.createElement("button");b.textContent=n;if(n===ptag)b.className="on";b.onclick=function(){ptag=n;renderProgress()};c.appendChild(b)})}
  var items=ALLP.filter(function(x){return x&&String(x.title||"").trim()&&(ptag==="All"||String(x.tag||"").trim()===ptag)});
  l.innerHTML="";if(!items.length){l.appendChild(mk("div","empty","Nothing posted yet."));return}
- items.forEach(function(x){var r=mk("div","pitem");r.appendChild(mk("div","pdate",x.date||""));var b=mk("div","pbody");var im=String(x.img||"");if(/^htb-img\/[A-Za-z0-9._-]+$/.test(im)){var pic=document.createElement("img");pic.src=im;pic.alt="";pic.className="pimg";pic.loading="lazy";pic.onerror=function(){pic.remove()};b.appendChild(pic)}b.appendChild(mk("b",null,x.title));
+ items.forEach(function(x){var r=mk("div","pitem "+teamOf(x.tag));r.appendChild(mk("div","pdate",x.date||""));var b=mk("div","pbody");var im=String(x.img||"");if(/^htb-img\/[A-Za-z0-9._-]+$/.test(im)){var pic=document.createElement("img");pic.src=im;pic.alt="";pic.className="pimg";pic.loading="lazy";pic.onerror=function(){pic.remove()};b.appendChild(pic)}b.appendChild(mk("b",null,x.title));
   if(x.tag){var g=mk("span","ptags");g.appendChild(mk("span","ptag "+teamOf(x.tag),x.tag));b.appendChild(g)}
   if(x.note)b.appendChild(mk("p",null,x.note));
   var u=String(x.url||"").trim();

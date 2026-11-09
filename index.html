@@ -232,6 +232,12 @@ footer{border-top:1px solid var(--line);margin-top:70px;padding:24px 0 40px;colo
 .ptag.t-r:before,.ptag.t-b:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:6px;vertical-align:1px;background:var(--acc)}
 .pitem .pbody a{color:var(--text);opacity:.8}
 .pitem .pbody a:hover{opacity:1}
+/* writeups: same team dot as Progress, neutral text */
+.wu.t-r,.post .meta.t-r{--acc:#ff4d63}
+.wu.t-b,.post .meta.t-b{--acc:#25d9f0}
+.wu span,.post .meta{color:var(--mute)}
+.wu span:before,.post .meta:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;vertical-align:1px;background:var(--acc);box-shadow:0 0 10px color-mix(in srgb,var(--acc) 60%,transparent)}
+.wu:hover{border-color:color-mix(in srgb,var(--acc) 55%,var(--line))}
 </style>
 </head>
 <body>
@@ -318,7 +324,7 @@ function renderW(){
  var items=WRITEUPS.filter(function(w){return cat==="All"||w.cat===cat});
  var l=document.getElementById("list");l.innerHTML="";
  if(!items.length){l.innerHTML='<div class="empty">No writeups in this category yet. The first ones are on the way.</div>';return}
- items.forEach(function(w){var a=document.createElement("a");a.className="wu";a.href="#w/"+encodeURIComponent(w.slug);
+ items.forEach(function(w){var a=document.createElement("a");a.className="wu "+teamOf(w.cat);a.href="#w/"+encodeURIComponent(w.slug);
   a.innerHTML="<span></span><h3></h3><p></p>";a.children[0].textContent=w.cat+" · "+w.date;a.children[1].textContent=w.title;a.children[2].textContent=w.summary;l.appendChild(a)});
 }
 function route(){
@@ -363,7 +369,7 @@ function loadPost(slug){
  ready.then(function(){return fetch("writeups/"+slug+".md?t="+Date.now())}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(t){
   var m=ALLW.filter(function(w){return w.slug===slug})[0]||{title:slug,cat:"",date:""};
   el.innerHTML='<h1></h1><div class="meta"></div><div>'+md(t)+'</div>';
-  el.querySelector("h1").textContent=m.title;el.querySelector(".meta").textContent=(m.cat+(m.date?" · "+m.date:""));document.title=m.title+" | 1bm0";
+  el.querySelector("h1").textContent=m.title;el.querySelector(".meta").textContent=(m.cat+(m.date?" · "+m.date:""));el.querySelector(".meta").className="meta "+teamOf(m.cat);document.title=m.title+" | 1bm0";
  }).catch(function(){el.innerHTML='<div class="empty">Writeup not found.</div>'});
 }
 var tt=document.getElementById("tt"),theme="red";

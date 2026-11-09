@@ -1,1 +1,9 @@
-   []
+[
+  {
+    "slug": "reactoops-cve-2025-55182",
+    "title": "ReactOOPS — CVE-2025-55182 (React2Shell)",
+    "cat": "Web",
+    "date": "2026-11-09",
+    "summary": "**Category:** Web | **Difficulty:** Very Easy | **Platform:** HTB"
+  }
+]

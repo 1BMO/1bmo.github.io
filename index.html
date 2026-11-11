@@ -239,6 +239,9 @@ footer{border-top:1px solid var(--line);margin-top:70px;padding:24px 0 40px;colo
 .wu span:before,.post .meta:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;vertical-align:1px;background:var(--acc);box-shadow:0 0 10px color-mix(in srgb,var(--acc) 60%,transparent)}
 .wu:hover{border-color:color-mix(in srgb,var(--acc) 55%,var(--line))}
 
+/* experimental / draft markers */
+.xbadge{font-style:normal;margin-left:10px;border:1px dashed var(--mute);border-radius:999px;padding:0 8px;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.xnote{margin:0 0 22px;border:1px dashed var(--line);border-radius:8px;padding:9px 14px;font:12.5px var(--mono);color:var(--mute)}
 /* terminal blocks (theme depends on the fence name: bash/sh, zsh, powershell, cmd) */
 .post{--tm:#8a919d}.post.t-r{--tm:#ff4d63}.post.t-b{--tm:#25d9f0}
 .post .term{margin:18px 0;border-radius:10px;overflow:hidden;border:1px solid var(--tb);background:var(--tbg)}
@@ -379,7 +382,7 @@ function renderW(){
  var l=document.getElementById("list");l.innerHTML="";
  if(!items.length){l.innerHTML='<div class="empty">No writeups in this category yet. The first ones are on the way.</div>';return}
  items.forEach(function(w){var a=document.createElement("a");a.className="wu "+teamOf(w.cat);a.href="#w/"+encodeURIComponent(w.slug);
-  a.innerHTML="<span></span><h3></h3><p></p>";a.children[0].textContent=w.cat+" · "+w.date;a.children[1].textContent=w.title;a.children[2].textContent=w.summary;l.appendChild(a)});
+  a.innerHTML="<span></span><h3></h3><p></p>";a.children[0].textContent=w.cat+" · "+w.date;if(w.exp){var bd=document.createElement("em");bd.className="xbadge";bd.textContent="experimental";a.children[0].appendChild(bd)}a.children[1].textContent=w.title;a.children[2].textContent=w.summary;l.appendChild(a)});
 }
 function route(){
  var hs=location.hash,v="home",slug=null;
@@ -480,7 +483,7 @@ function loadPost(slug){
  ready.then(function(){return fetch("writeups/"+slug+".md?t="+Date.now())}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(t){
   var m=ALLW.filter(function(w){return w.slug===slug})[0]||{title:slug,cat:"",date:""};
   el.className="post "+teamOf(m.cat);el.innerHTML='<h1></h1><div class="meta"></div><div class="pbodyw">'+md(t)+'</div>';
-  el.querySelector("h1").textContent=m.title;el.querySelector(".meta").textContent=(m.cat+(m.date?" · "+m.date:""));el.querySelector(".meta").className="meta "+teamOf(m.cat);document.title=m.title+" | 1bm0";buildToc(el);
+  el.querySelector("h1").textContent=m.title;el.querySelector(".meta").textContent=(m.cat+(m.date?" · "+m.date:""));el.querySelector(".meta").className="meta "+teamOf(m.cat);if(m.exp||m.draft){var nt=document.createElement("div");nt.className="xnote";nt.textContent=m.draft?"Draft: not listed publicly. Anyone with this link can still open it.":"Experimental write-up: still being tested, it may change or contain mistakes.";el.insertBefore(nt,el.querySelector(".meta").nextSibling)}document.title=m.title+" | 1bm0";buildToc(el);
  }).catch(function(){el.innerHTML='<div class="empty">Writeup not found.</div>'});
 }
 var tt=document.getElementById("tt"),theme="red";

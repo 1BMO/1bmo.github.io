@@ -36,7 +36,8 @@ button.g{background:none;color:var(--text);border:1px solid var(--line)}button.g
   <label>Title</label><input id="t">
   <div class="row"><div><label>Category</label><select id="cat"></select></div><div><label>Date</label><input id="date" type="date"></div></div>
   <label>Summary (shown in the list)</label><input id="sum" maxlength="200">
-  <label class="chk"><input id="draft" type="checkbox"> Draft: hide from the writeups list</label>
+  <label class="chk"><input id="draft" type="checkbox"> Draft: hide from the writeups list (still opens by direct link)</label>
+  <label class="chk"><input id="exp" type="checkbox"> Experimental: listed with an "experimental" badge and a note on the page</label>
   <label>Slug (URL name, set once)</label><input id="slug" placeholder="auto from title">
   <label>Body (Markdown)</label><textarea id="body" spellcheck="false"></textarea><div id="pv"></div>
   <button class="g" id="up">Insert image</button><input id="file" type="file" accept="image/*" hidden><button class="g" id="pvb">Preview</button>
@@ -111,16 +112,16 @@ async function del(p,sha){var r=await fetch(url(p),{method:"DELETE",headers:hd()
 function slugify(t){return t.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,60)||"writeup-"+Date.now().toString(36)}
 async function loadIdx(){var f=await get("writeups/index.json");IDX=f?JSON.parse(f.text||"[]"):[];renderList()}
 function renderList(){var l=$("list");l.innerHTML="";if(!IDX.length){l.innerHTML='<small style="color:#8a919d">No writeups yet.</small>';return}
- IDX.forEach(function(w){var d=document.createElement("div");d.className="it";var s=document.createElement("div");s.innerHTML="<b></b><br><small></small>";s.firstChild.textContent=w.title;s.lastChild.textContent=w.cat+" · "+w.date+(w.draft?" · draft":"");
+ IDX.forEach(function(w){var d=document.createElement("div");d.className="it";var s=document.createElement("div");s.innerHTML="<b></b><br><small></small>";s.firstChild.textContent=w.title;s.lastChild.textContent=w.cat+" · "+w.date+(w.draft?" · draft":"")+(w.exp?" · experimental":"");
   var e=document.createElement("button");e.className="g";e.textContent="Edit";e.onclick=function(){edit(w.slug)};var x=document.createElement("button");x.className="g";x.textContent="Delete";x.onclick=function(){rm(w.slug)};
   var b=document.createElement("div");b.append(e,x);d.append(s,b);l.append(d)})}
-function blank(){$("t").value="";$("sum").value="";$("slug").value="";$("slug").readOnly=false;$("body").value="";$("date").value=new Date().toISOString().slice(0,10);$("cat").value=C.cats[0];$("draft").checked=false;$("eh").textContent="New writeup"}
-async function edit(slug){try{say("Loading…");var w=IDX.filter(function(x){return x.slug===slug})[0],f=await get("writeups/"+slug+".md");$("t").value=w.title;catOpt(w.cat);$("cat").value=w.cat;$("draft").checked=!!w.draft;$("date").value=w.date;$("sum").value=w.summary||"";$("slug").value=slug;$("slug").readOnly=true;$("body").value=f?f.text:"";$("eh").textContent="Editing: "+w.title;say("");window.scrollTo(0,$("eh").offsetTop)}catch(e){say(e.message,"er")}}
+function blank(){$("t").value="";$("sum").value="";$("slug").value="";$("slug").readOnly=false;$("body").value="";$("date").value=new Date().toISOString().slice(0,10);$("cat").value=C.cats[0];$("draft").checked=false;$("exp").checked=false;$("eh").textContent="New writeup"}
+async function edit(slug){try{say("Loading…");var w=IDX.filter(function(x){return x.slug===slug})[0],f=await get("writeups/"+slug+".md");$("t").value=w.title;catOpt(w.cat);$("cat").value=w.cat;$("draft").checked=!!w.draft;$("exp").checked=!!w.exp;$("date").value=w.date;$("sum").value=w.summary||"";$("slug").value=slug;$("slug").readOnly=true;$("body").value=f?f.text:"";$("eh").textContent="Editing: "+w.title;say("");window.scrollTo(0,$("eh").offsetTop)}catch(e){say(e.message,"er")}}
 async function rm(slug){if(!confirm("Delete this writeup?"))return;try{say("Deleting…");var f=await get("writeups/"+slug+".md");if(f)await del("writeups/"+slug+".md",f.sha);var i=await get("writeups/index.json"),a=(i?JSON.parse(i.text):[]).filter(function(x){return x.slug!==slug});await put("writeups/index.json",enc(JSON.stringify(a,null,2)+"\n"),"Update index",i&&i.sha);IDX=a;renderList();say("Deleted.","ok")}catch(e){say(e.message,"er")}}
 async function publish(){var t=$("t").value.trim();if(!t){say("Title is required.","er");return}
  var slug=$("slug").value.trim()||slugify(t);if(!/^[a-z0-9-]+$/.test(slug)){say("Slug: lowercase letters, numbers, dashes only.","er");return}
  try{$("pub").disabled=true;say("Publishing…");var cur=await get("writeups/"+slug+".md");await put("writeups/"+slug+".md",enc($("body").value),"Publish "+slug,cur&&cur.sha);
-  var f=await get("writeups/index.json"),a=f?JSON.parse(f.text||"[]"):[],e={slug:slug,title:t,cat:$("cat").value,date:$("date").value,summary:$("sum").value.trim()},k=a.findIndex(function(x){return x.slug===slug});if($("draft").checked)e.draft=true;
+  var f=await get("writeups/index.json"),a=f?JSON.parse(f.text||"[]"):[],e={slug:slug,title:t,cat:$("cat").value,date:$("date").value,summary:$("sum").value.trim()},k=a.findIndex(function(x){return x.slug===slug});if($("draft").checked)e.draft=true;if($("exp").checked)e.exp=true;
   if(k>=0)a[k]=e;else a.push(e);a.sort(function(x,y){return String(y.date).localeCompare(String(x.date))});
   await put("writeups/index.json",enc(JSON.stringify(a,null,2)+"\n"),"Update index",f&&f.sha);IDX=a;renderList();$("slug").value=slug;$("slug").readOnly=true;say("Published. The site updates in about a minute.","ok")}
  catch(e){say(e.message,"er")}finally{$("pub").disabled=false}}

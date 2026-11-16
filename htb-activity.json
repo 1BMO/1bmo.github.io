@@ -1,5 +1,14 @@
 [
   {
+    "title": "Solved Dark Embargo",
+    "date": "2026-11-16",
+    "note": "Challenge",
+    "url": "https://app.hackthebox.com/challenges/Dark%20Embargo",
+    "id": "challenge:1926",
+    "tag": "HTB Labs",
+    "img": "htb-img/c1926.svg"
+  },
+  {
     "title": "Solved ReactOOPS",
     "date": "2026-11-03",
     "note": "Challenge",

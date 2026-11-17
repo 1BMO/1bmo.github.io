@@ -1,5 +1,14 @@
 [
   {
+    "title": "Solved Space Explorer",
+    "date": "2026-11-17",
+    "note": "Challenge",
+    "url": "https://app.hackthebox.com/challenges/Space%20Explorer",
+    "id": "challenge:1317",
+    "tag": "HTB Labs",
+    "img": "htb-img/c1317.svg"
+  },
+  {
     "title": "Solved Dark Embargo",
     "date": "2026-11-16",
     "note": "Challenge",

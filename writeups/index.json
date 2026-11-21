@@ -4,7 +4,7 @@
     "title": "Dark Embargo — CVE-2026-109618 / CVE-2026-109619 (PHP2Shell)",
     "cat": "Web",
     "date": "2026-11-16",
-    "summary": "Exploit PHP 8.4.26 default settings — no app code needed. A crafted multipart upload triggers an out-of-memory abort mid-request, leaving two dangling session pointers. One leaks 600 KB of heap to def"
+    "summary": "A crafted multipart upload crashes PHP 8.4.26 mid-request and leaves two dangling session pointers, which can be abused to leak heap memory. Default settings, no app code needed."
   },
   {
     "slug": "reactoops-cve-2025-55182",

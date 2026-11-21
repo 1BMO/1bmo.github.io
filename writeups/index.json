@@ -4,7 +4,7 @@
     "title": "Dark Embargo — CVE-2026-109618 / CVE-2026-109619 (PHP2Shell)",
     "cat": "Web",
     "date": "2026-11-16",
-    "summary": "A crafted multipart upload crashes PHP 8.4.26 mid-request and leaves two dangling session pointers, which can be abused to leak heap memory. Default settings, no app code needed."
+    "summary": "HTB Very Easy web machine exploiting React2Shell, an unauthenticated RCE in React Server Components. Covers detection, exploitation, and remediation."
   },
   {
     "slug": "reactoops-cve-2025-55182",
